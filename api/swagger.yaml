@@ -1,0 +1,73 @@
+swagger: '2.0'
+info:
+  title: 华中大相册微信小程序
+  version: 0.1.0
+  contact:
+    name: Mondo
+    email: mondogao@gmail.com
+host: '127.0.0.0:8080'
+basePath: /api/
+schemes:
+  - http
+paths:
+  '/albums/{id}/pictures':
+    get:
+      description: 获取相册下的所有照片信息
+      tags:
+        - albums
+      parameters:
+        - $ref: '#/parameters/idPathParam'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Picture'
+definitions:
+  Picture:
+    type: object
+    properties:
+      id:
+        $ref: '#/definitions/Id'
+      src:
+        type: string
+      desc:
+        type: string
+      date:
+        type: string
+        example: '2014-05-30'
+      isLiked:
+        type: boolean
+      author:
+        $ref: '#/definitions/User'
+      comments:
+        type: array
+        items:
+          $ref: '#/definitions/Comment'
+  User:
+    type: object
+    properties:
+      id:
+        $ref: '#/definitions/Id'
+      nickname:
+        type: string
+  Comment:
+    type: object
+    properties:
+      id:
+        $ref: '#/definitions/Id'
+      commenter:
+        $ref: '#/definitions/User'
+      content:
+        type: string
+      date:
+        type: string
+        example: '2014-05-30'
+  Id:
+    type: string
+parameters:
+  idPathParam:
+    name: id
+    in: path
+    description: id
+    type: string
+    required: true
