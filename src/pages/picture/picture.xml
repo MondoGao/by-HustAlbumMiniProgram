@@ -1,46 +1,43 @@
 <swiper wx:if="{{picIds.length > 0}}" class="swiper" current="{{swiperCurrent}}" bindchange="handleSwiperChange">
     <swiper-item wx:for="{{picIds}}" wx:key="{{item}}">
         <template is="picture" data="{{...pictures[item]}}"/>
-        <view class="form-layout {{isShowCommentForm ? 'show' : ''}}" catchtap="handleCommentFormHide">
-            <form class="comment-form" catchtap="handleBtnCommentTap">
-                <input placeholder="评论..." confirm-type="send" bindblur="handleCommentFormBlur"/>
-            </form>
-        </view>
     </swiper-item>
 </swiper>
 
 <template name="picture">
     <scroll-view scroll-y="{{true}}" class="container">
-        <view class="container-content">
-            <image src="{{src}}" mode="aspectFill" bindtap="handlePicTap" data-src="{{src}}"></image>
-            <view class="meta-wrapper">
-                <view class="meta">
-                    <view class="desc">
-                        {{desc}}
-                    </view>
-                    <view class="info">
-                        <text class="date">{{date}}</text>
-                        <text class="nickname">BY {{user.nickname}}</text>
-                        <view class="like">
-                            <image src="/assets/picture-like{{isLiked ? 'd' : ''}}@2x.png"/>
-                            喜欢
-                        </view>
-                        <button open-type="share" class="share" bindtap="handleShareTap">
-                            <image src="/assets/picture-share@2x.png"/>
-                            分享
-                        </button>
-                    </view>
+        <image src="{{src}}" mode="aspectFill" bindtap="handlePicTap" data-src="{{src}}"></image>
+        <view class="meta-wrapper">
+            <view class="meta">
+                <view class="desc">
+                    {{desc}}
                 </view>
-                <view class="comments-wrapper">
-                    <view class="comment-btn-wrapper">
-                        <text bindtap="handleBtnCommentTap">评论...</text>
+                <view class="info">
+                    <text class="date">{{date}}</text>
+                    <text class="nickname">BY {{user.nickname}}</text>
+                    <view class="like">
+                        <image src="/assets/picture-like{{isLiked ? 'd' : ''}}@2x.png"/>
+                        喜欢
                     </view>
-                    <view class="comments" scroll-y="{{true}}">
-                        <template wx:for="{{comments}}" wx:key="index" is="comment" data="{{index, content: item.content}}"/>
-                    </view>
+                    <button open-type="share" class="share" bindtap="handleShareTap">
+                        <image src="/assets/picture-share@2x.png"/>
+                        分享
+                    </button>
                 </view>
             </view>
+            <view class="comments-wrapper">
+                <view class="comments-header">
+                    <text>评论区</text>
+                </view>
+                <view class="comments" scroll-y="{{true}}">
+                    <template wx:for="{{comments}}" wx:key="index" is="comment" data="{{index, content: item.content}}"/>
+                </view>
+            </view>
+
         </view>
+        <form class="comment-form" catchtap="handleBtnCommentTap">
+            <input placeholder="评论..." placeholder-class="input-placeholder" confirm-type="send" bindblur="handleCommentFormBlur"/>
+        </form>
     </scroll-view>
 </template>
 

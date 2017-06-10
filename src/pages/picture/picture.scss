@@ -16,27 +16,19 @@
 
 .container {
   height: 100%;
-  
-  .container-content {
-    padding: 20rpx;
     
     image {
       width: 100%;
-      height: 472rpx;
+      height: 505rpx;
       vertical-align: top;
     }
-  }
 }
 
 .meta-wrapper {
-  display: flex;
-  flex-direction: column;
-  padding: 0 27rpx;
+  padding: 40rpx 24rpx 100rpx;
 }
 
 .meta {
-  margin-top: 54rpx;
-  
   .desc {
     color: $colorDesc;
     font-size: 30rpx;
@@ -49,7 +41,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-top: 57rpx;
+    margin-top: 45rpx;
     color: $colorInfo;
     font-size: 24rpx;
     
@@ -59,11 +51,11 @@
     .like, .share {
       image {
         vertical-align: middle;
-        margin-right: 13rpx;
+        margin-right: 8rpx;
       }
     }
     .like {
-      margin-right: 80rpx;
+      margin-right: 22rpx;
       
       image {
         height: 27rpx;
@@ -95,6 +87,28 @@
   margin-top: 20rpx;
   padding: 0 4rpx;
   
+  .comments-header {
+    margin: 47rpx 0 39rpx;
+    color: $colorPrimary;
+    text-align: center;
+    
+    text {
+      margin: 0 24rpx;
+      font-size: 28rpx;
+      vertical-align: middle;
+      font-weight: 500;
+    }
+    
+    &::before, &::after {
+      content: '';
+      display: inline-block;
+      width: 28rpx;
+      height: 2rpx;
+      background: $colorPrimary;
+      vertical-align: middle;
+    }
+  }
+  
   .comments {
     margin-top: 20rpx;
   }
@@ -115,62 +129,24 @@
   }
 }
 
-@define-extend commentInput {
-  display: inline-block;
-  width: 650rpx;
-  height: 60rpx;
-  line-height: 60rpx;
-  padding: 0 20rpx;
-  background: $colorInputBg;
-  font-size: 30rpx;
-  font-weight: 500;
-  color: $colorGrey1;
-  border: 1px $colorBorder solid;
-  border-radius: 4rpx;
-  transition: all .4s;
-}
-
-.comment-btn-wrapper {
-  height: 60rpx;
-  width: 100%;
-  margin-top: 6rpx;
-  
-  text {
-    @extend commentInput;
-  }
-}
-
-.form-layout {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  pointer-events: none;
-  
-  &.show {
-    pointer-events: auto;
-  
-    .comment-form {
-      transform: translateY(0);
-    }
-  }
-}
-
 .comment-form {
-  position: absolute;
+  position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100rpx;
-  padding: 20rpx 51rpx;
-  background: $colorFontDay;
-  border-top: 1px $colorBorder solid;
-  transform: translateY(100%);
-  transition: transform .3s;
+  width: 100%;
+  height: 82rpx;
+  padding: 12rpx 24rpx 22rpx;
+  background: #fff;
+  box-shadow: 0 0 10rpx rgba(0, 0, 0, .15);
   
   input {
-    @extend commentInput;
     vertical-align: top;
+    font-size: 30rpx;
+    padding: 10rpx;
+    color: $colorComment;
+    border-bottom: 2px solid $colorGrey2;
   }
+}
+.input-placeholder {
+  color: $colorGrey2;
+  
 }
