@@ -1,4 +1,4 @@
-<swiper wx:if="{{picIds.length > 0}}" class="swiper" current="{{swiperCurrent}}" bindchange="handleSwiperChange">
+<swiper wx:if="{{picIds.length > 0 && isLogin}}" class="swiper" current="{{swiperCurrent}}" bindchange="handleSwiperChange">
     <swiper-item wx:for="{{picIds}}" wx:key="{{item}}">
         <template is="picture" data="{{...pictures[item]}}"/>
     </swiper-item>

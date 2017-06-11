@@ -4,14 +4,33 @@ import { commonFetchGet } from 'sources/utils'
 import { pictures, albums } from 'sources/schemas'
 
 // users
-export const postUsers = code => {
-  return Promise.resolve({
-    session: 'this is a fake session'
-  })
-}
-
 export const putUsers = (session, encryptedData) => {
   return Promise.resolve()
+}
+
+export const postUsers = code => {
+  return Promise.resolve({
+    data: {
+      session: 'this is a fake session'
+    },
+    statusCode: '201'
+  })
+    .then(resp => {
+      wx.setStorageSync('session', resp.data.session)
+  
+      if (resp.statusCode === '201') {
+        return new Promise((resolve, reject) => {
+          wx.getUserInfo({
+            withCredentials: true,
+            success(data) {
+              resolve(putUsers(resp.data.session, data.encryptedData))
+            }
+          })
+        })
+      }
+      
+      
+    })
 }
 
 // albums

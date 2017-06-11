@@ -2,6 +2,8 @@ import { getAlbumPictures } from 'sources'
 
 Page({
   data: {
+    isLogin: getApp().data.isLogin,
+    checkLoginTimer: null,
     isShowCommentForm: false,
     swiperCurrent: 0,
     pictures: {},
@@ -23,6 +25,8 @@ Page({
   },
   
   onLoad(query) {
+    const App = getApp()
+    
     wx.showLoading({
       title: '加载图片中...',
       mask: true
@@ -31,6 +35,21 @@ Page({
     this.setData({
       query
     })
+    
+    if (!this.data.isLogin) {
+      this.setData({
+        checkLoginTimer: setInterval(() => {
+          if (App.data.isLogin) {
+            clearInterval(this.data.checkLoginTimer)
+            
+            this.setData({
+              isLogin: true,
+              checkLoginTimer: null
+            })
+          }
+        }, 500)
+      })
+    }
   },
   onShow() {
     this.refreshData()
