@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   title: 华中大相册微信小程序
-  version: 1.0.0
+  version: 1.0.1
   contact:
     name: Mondo
     email: mondogao@gmail.com
@@ -139,5 +139,6 @@ parameters:
   contentParam:
     name: content
     in: body
-    type: string
+    schema:
+      type: string
     required: true
