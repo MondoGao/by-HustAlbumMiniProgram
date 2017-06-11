@@ -99,21 +99,32 @@ Page({
     })
   },
   handleSendCommentTap(e) {
-    wx.hideKeyboard()
-    wx.showLoading({
-      title: '评论中...',
-      mask: true
-    })
-    postPictureComments(this.data.id, wx.getStorageSync('session'), this.data.commentValue)
-      .then(data => {
-        let picture = this.data.pictures[this.data.id]
-        
-        picture.comments.push(data)
-        picture.scrollIntoView = `comment-${data.id}`
-        this.setData(this.data)
-  
-        wx.hideLoading()
+    if (this.data.commentValue.length > 0) {
+      wx.hideKeyboard()
+      wx.showLoading({
+        title: '评论中...',
+        mask: true
       })
+      postPictureComments(this.data.id, wx.getStorageSync('session'), this.data.commentValue)
+        .then(data => {
+          let picture = this.data.pictures[this.data.id]
+      
+          picture.comments.push(data)
+          picture.scrollIntoView = `comment-${data.id}`
+          this.setData(this.data)
+          this.setData(this.data) // 保证滚动
+      
+          this.data.pictures[this.data.id].scrollIntoView = ''
+          this.setData(this.data)
+      
+          wx.hideLoading()
+        })
+    } else {
+      wx.showToast({
+        title: '请输入评论内容哦~',
+        image: `/assets/send@2x.png`
+      })
+    }
   },
   handleLikeTap(e) {
     postPictureLikes(this.data.id, wx.getStorageSync('session'))
@@ -121,7 +132,7 @@ Page({
         let picture = this.data.pictures[this.data.id]
   
         picture.isLiked = !picture.isLiked
-        picture.likeTimes++
+        picture.likeTimes += picture.isLiked ? 1 : -1
         
         this.setData(this.data)
       })

@@ -4,12 +4,12 @@
     </swiper-item>
 </swiper>
 <form class="comment-form" catchtap="stopBubble">
-    <input bindinput="handleCommentInput" placeholder="评论..." placeholder-class="input-placeholder" confirm-type="send"/>
+    <input bindinput="handleCommentInput" bindconfirm="handleSendCommentTap" placeholder="评论" placeholder-class="input-placeholder" confirm-type="send"/>
     <image src="/assets/send@2x.png" catchtap="handleSendCommentTap"/>
 </form>
 
 <template name="picture">
-    <scroll-view scroll-y="{{true}}" class="container" scroll-into-view="{{scrollIntoView}}">
+    <scroll-view scroll-y="{{true}}" class="container" scroll-into-view="{{scrollIntoView}}" scroll-with-animation="{{true}}">
         <image src="{{src}}" mode="aspectFill" bindtap="handlePicTap" data-src="{{src}}"></image>
         <view class="meta-wrapper">
             <view class="meta">
