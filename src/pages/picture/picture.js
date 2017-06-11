@@ -10,6 +10,7 @@ Page({
     pictures: {},
     picIds: [],
     commentValue: '',
+    tmpValue: '',
     
     id: undefined,
     albumId: undefined
@@ -111,6 +112,7 @@ Page({
       
           picture.comments.push(data)
           picture.scrollIntoView = `comment-${data.id}`
+          this.data.tmpValue = ''
           this.setData(this.data)
           this.setData(this.data) // 保证滚动
       
