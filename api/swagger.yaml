@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   title: 华中大相册微信小程序
-  version: 1.0.7
+  version: 1.0.8
   contact:
     name: Mondo
     email: mondogao@gmail.com
@@ -33,7 +33,20 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/Album'
+            type: object
+            allOf:
+              - $ref: '#/definitions/Album'
+              - type: object
+                properties:
+                  pictures:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          $ref: '#/definitions/Id'
+                        src:
+                          type: string
   '/albums/{id}/pictures':
     get:
       description: 获取相册下的所有照片信息
