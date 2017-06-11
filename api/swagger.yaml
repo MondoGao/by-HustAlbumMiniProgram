@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   title: 华中大相册微信小程序
-  version: 0.1.0
+  version: 1.0.0
   contact:
     name: Mondo
     email: mondogao@gmail.com
@@ -10,6 +10,18 @@ basePath: /api/
 schemes:
   - http
 paths:
+  '/albums/{id}':
+    get:
+      description: 获取相册的信息
+      tags:
+        - albums
+      parameters:
+        - $ref: '#/parameters/idPathParam'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Album'
   '/albums/{id}/pictures':
     get:
       description: 获取相册下的所有照片信息
@@ -21,8 +33,53 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/Picture'
+            type: array
+            items:
+              $ref: '#/definitions/Picture'
+  '/pictures/{id}/comments':
+    post:
+      description: 添加评论
+      parameters:
+        - $ref: '#/parameters/idPathParam'
+        - $ref: '#/parameters/contentParam'
+      responses:
+        '201':
+          description: OK
+  '/pictures/{id}/likes':
+    post:
+      description: 点赞
+      parameters:
+        - $ref: '#/parameters/idPathParam'
+      responses:
+        '201':
+          description: OK
+  /users:
+    post:
+      description: 获取小程序发送的用户信息创建新用户或登陆
+      responses:
+        '200':
+          description: 登陆成功
+          schema:
+            $ref: '#/definitions/Session'
+        '201':
+          description: 注册成功
+          schema:
+            $ref: '#/definitions/Session'
 definitions:
+  Album:
+    type: object
+    properties:
+      id:
+        $ref: '#/definitions/Id'
+      name:
+        type: string
+      desc:
+        type: string
+      coverSrc:
+        $ref: '#/definitions/ImageSrc'
+      latelyUpdateTime:
+        type: string
+        format: date
   Picture:
     type: object
     properties:
@@ -32,11 +89,14 @@ definitions:
         type: string
       desc:
         type: string
-      date:
+      uploadDate:
         type: string
         example: '2014-05-30'
       isLiked:
         type: boolean
+        description: 根据当前用户返回照片是否被点过赞
+      likeTimes:
+        type: integer
       author:
         $ref: '#/definitions/User'
       comments:
@@ -64,10 +124,20 @@ definitions:
         example: '2014-05-30'
   Id:
     type: string
+  Session:
+    type: string
+  ImageSrc:
+    type: string
+    example: /statics/images/9j20-kdj9.png
 parameters:
   idPathParam:
     name: id
     in: path
     description: id
+    type: string
+    required: true
+  contentParam:
+    name: content
+    in: body
     type: string
     required: true
