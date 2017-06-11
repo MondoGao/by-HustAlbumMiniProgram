@@ -9,3 +9,16 @@ view, scroll-view, input, form, text {
 navigator {
   transition: all .3s;
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.ani-fade-in {
+  animation: fadeIn .5s;
+}

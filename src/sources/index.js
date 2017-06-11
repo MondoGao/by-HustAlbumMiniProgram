@@ -60,7 +60,17 @@ export const getAlbum = id => {
     "name": "string",
     "desc": "string",
     "coverSrc": "/statics/images/9j20-kdj9.png",
-    "latelyUpdateTime": "string"
+    "latelyUpdateTime": "string",
+    pictures: [
+      {
+        id: '1',
+        src: '/assets/cover@2x.png'
+      },
+      {
+        id: '2',
+        src: '/assets/cover@2x.png'
+      }
+    ]
   })
 }
 

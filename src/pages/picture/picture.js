@@ -2,6 +2,7 @@ import { getAlbumPictures, postPictureLikes, postPictureComments } from 'sources
 
 Page({
   data: {
+    isLoading: true,
     isLogin: getApp().data.isLogin,
     checkLoginTimer: null,
     isShowCommentForm: false,
@@ -20,6 +21,7 @@ Page({
         wx.hideToast()
   
         this.setData({
+          isLoading: false,
           swiperCurrent: data.result.indexOf(this.data.id),
           picIds: data.result,
           pictures: data.entities.pictures

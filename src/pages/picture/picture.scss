@@ -1,17 +1,7 @@
 @import "../../utils/_exports.scss";
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 .swiper {
   height: 100vh;
-  animation: fadeIn .5s;
 }
 
 .container {

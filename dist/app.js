@@ -409,7 +409,7 @@ const postUsers = code => {
       
     })
 }
-/* harmony export (immutable) */ __webpack_exports__["d"] = postUsers;
+/* harmony export (immutable) */ __webpack_exports__["e"] = postUsers;
 
 
 // albums
@@ -441,10 +441,20 @@ const getAlbum = id => {
     "name": "string",
     "desc": "string",
     "coverSrc": "/statics/images/9j20-kdj9.png",
-    "latelyUpdateTime": "string"
+    "latelyUpdateTime": "string",
+    pictures: [
+      {
+        id: '1',
+        src: '/assets/cover@2x.png'
+      },
+      {
+        id: '2',
+        src: '/assets/cover@2x.png'
+      }
+    ]
   })
 }
-/* unused harmony export getAlbum */
+/* harmony export (immutable) */ __webpack_exports__["d"] = getAlbum;
 
 
 const getAlbumPictures = id => {
@@ -1148,7 +1158,7 @@ App({
   },
   
   handleLoginSuccess(res) {
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_sources__["d" /* postUsers */])(res.code)
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_sources__["e" /* postUsers */])(res.code)
       .then(data => {
         this.data.isLogin = true
       })

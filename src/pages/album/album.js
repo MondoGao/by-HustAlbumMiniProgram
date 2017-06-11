@@ -1,46 +1,27 @@
+import { getAlbum } from 'sources'
+
 Page({
   data: {
-    id: 1,
-    picSrcs: [
-      {
-        id: 1,
-        src: '/assets/cover@2x.png'
-      },
-      {
-        id: 2,
-        src: '/assets/cover@2x.png'
-      },
-      {
-        id: 3,
-        src: '/assets/cover@2x.png'
-      },
-      {
-        id: 4,
-        src: '/assets/cover@2x.png'
-      },
-      {
-        id: 5,
-        src: '/assets/cover@2x.png'
-      },
-      {
-        id: 6,
-        src: '/assets/cover@2x.png'
-      },
-      {
-        id: 7,
-        src: '/assets/cover@2x.png'
-      },
-      {
-        id: 8,
-        src: '/assets/cover@2x.png'
-      },
-      {
-        id: 9,
-        src: '/assets/cover@2x.png'
-      }
-    ]
+    isLoading: true,
+    
+    id: undefined,
+    name: undefined,
+    pictures: undefined
   },
+  refreshData() {
+    getAlbum(this.data.id)
+      .then(data => {
+        this.data.isLoading = false
+        this.setData(Object.assign({}, this.data, data))
+      })
+  },
+  
   onLoad(query) {
-    console.log(query)
+    this.setData({
+      id: query.id
+    })
+  },
+  onShow() {
+    this.refreshData()
   }
 })
