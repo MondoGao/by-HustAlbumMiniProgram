@@ -1,5 +1,5 @@
 <view wx:if="{{!isLoading}}" class="container ani-fade-in">
-    <swiper class="swiper" bindchange="handleSwiperChange">
+    <swiper class="swiper" bindchange="handleSwiperChange" duration="250">
         <swiper-item wx:for="{{albums}}" wx:key="{{index}}">
             <template is="album" data="{{...item, date}}"/>
         </swiper-item>

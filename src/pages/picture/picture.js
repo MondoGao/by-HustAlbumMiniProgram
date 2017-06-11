@@ -18,7 +18,7 @@ Page({
   refreshData() {
     return getAlbumPictures(this.data.albumId)
       .then(data => {
-        wx.hideToast()
+        wx.hideLoading()
   
         this.setData({
           isLoading: false,
@@ -32,10 +32,10 @@ Page({
   onLoad(query) {
     const App = getApp()
     
-    wx.showLoading({
-      title: '加载图片中...',
-      mask: true
-    })
+    // wx.showLoading({
+    //   title: '加载图片中...',
+    //   mask: true
+    // })
     
     this.setData({
       id: query.id,

@@ -24,6 +24,7 @@
     font-size: 30rpx;
     font-weight: 500;
     line-height: 1.5;
+    word-break: break-all;
   }
   
   .info {
@@ -135,7 +136,7 @@
     font-size: 30rpx;
     padding: 10rpx;
     color: $colorComment;
-    border-bottom: 2px solid $colorGrey2;
+    border-bottom: 2rpx solid $colorGrey2;
   }
   
   image {
