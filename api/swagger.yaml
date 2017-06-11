@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   title: 华中大相册微信小程序
-  version: 1.0.2
+  version: 1.0.4
   contact:
     name: Mondo
     email: mondogao@gmail.com
@@ -44,7 +44,16 @@ paths:
         - pictures
       parameters:
         - $ref: '#/parameters/idPathParam'
-        - $ref: '#/parameters/contentParam'
+        - name: data
+          in: body
+          schema:
+            type: object
+            properties:
+              session:
+                $ref: '#/definitions/Session'
+              content:
+                type: string
+          required: true
       responses:
         '201':
           description: OK
@@ -56,21 +65,55 @@ paths:
         - likes
       parameters:
         - $ref: '#/parameters/idPathParam'
+        - name: data
+          in: body
+          schema:
+            type: object
+            properties:
+              session:
+                $ref: '#/definitions/Session'
+          required: true
       responses:
         '201':
           description: OK
   /users:
-    post:
-      description: 获取小程序发送的用户信息创建新用户或登陆
+    put:
+      description: 回传小程序发送的用户信息
       tags:
         - users
+      parameters:
+        - name: data
+          in: body
+          schema:
+            type: object
+            properties:
+              session:
+                $ref: '#/definitions/Session'
+              encryptedData:
+                type: string
+          required: true
       responses:
         '200':
-          description: 登陆成功
+          description: OK
+    post:
+      description: 获取 3rd_session
+      tags:
+        - users
+      parameters:
+        - name: data
+          in: body
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+      responses:
+        '200':
+          description: 登陆成功，不会再回传数据
           schema:
             $ref: '#/definitions/Session'
         '201':
-          description: 注册成功
+          description: 注册成功，客户端会再请求加密数据回传
           schema:
             $ref: '#/definitions/Session'
 definitions:
@@ -143,10 +186,4 @@ parameters:
     in: path
     description: id
     type: string
-    required: true
-  contentParam:
-    name: content
-    in: body
-    schema:
-      type: string
     required: true
