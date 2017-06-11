@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   title: 华中大相册微信小程序
-  version: 1.0.8
+  version: 1.0.9
   contact:
     name: Mondo
     email: mondogao@gmail.com
@@ -164,6 +164,8 @@ definitions:
       latelyUpdateTime:
         type: string
         format: date
+      picNum:
+        type: integer
   Picture:
     type: object
     properties:
