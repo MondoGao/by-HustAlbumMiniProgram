@@ -1,6 +1,6 @@
 <swiper wx:if="{{!isLoading && isLogin}}" class="swiper ani-fade-in" current="{{swiperCurrent}}" bindchange="handleSwiperChange">
     <swiper-item wx:for="{{picIds}}" wx:key="{{item}}">
-        <template is="picture" data="{{...pictures[item]}}"/>
+        <template is="picture" data="{{isShowShare, ...pictures[item]}}"/>
     </swiper-item>
 </swiper>
 <form class="comment-form" catchtap="stopBubble">
@@ -23,7 +23,7 @@
                         <image src="/assets/picture-like{{isLiked ? 'd' : ''}}@2x.png"/>
                         {{likeTimes > 0 ? likeTimes : '喜欢'}}
                     </view>
-                    <button open-type="share" class="share" bindtap="handleShareTap">
+                    <button wx:if="{{isShowShare}}" open-type="share" class="share" bindtap="handleShareTap">
                         <image src="/assets/picture-share@2x.png"/>
                         分享
                     </button>

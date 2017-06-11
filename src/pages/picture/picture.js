@@ -12,6 +12,8 @@ Page({
     commentValue: '',
     tmpValue: '',
     
+    isShowShare: !!wx.showShareMenu,
+    
     id: undefined,
     albumId: undefined
   },
