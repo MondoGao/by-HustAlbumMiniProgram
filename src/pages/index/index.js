@@ -24,6 +24,12 @@ Page({
   onShow() {
     this.refreshData()
   },
+  onShareAppMessage() {
+    return {
+      title: '华中大相册',
+      path: `${this.route}`
+    }
+  },
   
   handleSwiperChange(e) {
     this.setData({

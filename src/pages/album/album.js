@@ -23,5 +23,11 @@ Page({
   },
   onShow() {
     this.refreshData()
+  },
+  onShareAppMessage() {
+    return {
+      title: this.data.name,
+      path: `${this.route}?id=${this.data.id}`
+    }
   }
 })
