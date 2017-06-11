@@ -42,6 +42,9 @@ Page({
     }
   },
   
+  stopBubble() {
+  
+  },
   handleSwiperChange(e) {
     wx.updateShareMenu({
       path: `${this.route}?id=${this.data.pictures[this.data.picIds[e.detail.current]].id}&$albumId=${this.data.query.albumId}`
@@ -61,19 +64,10 @@ Page({
       withShareTicket: true
     })
   },
-  handleBtnCommentTap(e) {
-    this.setData({
-      isShowCommentForm: true
-    })
+  handleSendCommentTap(e) {
+  
   },
-  handleCommentFormBlur(e) {
-    this.setData({
-      isShowCommentForm: false
-    })
-  },
-  handleCommentFormHide(e) {
-    this.setData({
-      isShowCommentForm: false
-    })
+  handleLikeTap(e) {
+  
   }
 })
