@@ -17,11 +17,11 @@
                     {{desc}}
                 </view>
                 <view class="info">
-                    <text class="date">{{date}}</text>
+                    <text class="date">{{uploadDate}}</text>
                     <text class="nickname">BY {{user.nickname}}</text>
                     <view class="like" catchtap="handleLikeTap">
                         <image src="/assets/picture-like{{isLiked ? 'd' : ''}}@2x.png"/>
-                        喜欢
+                        {{likeTimes > 0 ? likeTimes : '喜欢'}}
                     </view>
                     <button open-type="share" class="share" bindtap="handleShareTap">
                         <image src="/assets/picture-share@2x.png"/>

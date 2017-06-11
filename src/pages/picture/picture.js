@@ -19,10 +19,13 @@ Page({
     return getAlbumPictures(this.data.albumId)
       .then(data => {
         wx.hideLoading()
-  
+        const picId = this.data.id
+        const swiperIndex = data.result.indexOf(picId)
+        
         this.setData({
+          id: picId ? picId : data.result[0],
           isLoading: false,
-          swiperCurrent: data.result.indexOf(this.data.id),
+          swiperCurrent: ~swiperIndex ? swiperIndex : 0,
           picIds: data.result,
           pictures: data.entities.pictures
         })
@@ -104,6 +107,7 @@ Page({
     postPictureComments(this.data.id, wx.getStorageSync('session'), this.data.commentValue)
       .then(data => {
         let picture = this.data.pictures[this.data.id]
+        
         picture.comments.push(data)
         picture.scrollIntoView = `comment-${data.id}`
         this.setData(this.data)
@@ -114,7 +118,11 @@ Page({
   handleLikeTap(e) {
     postPictureLikes(this.data.id, wx.getStorageSync('session'))
       .then(() => {
-        this.data.pictures[this.data.id].isLiked = !this.data.pictures[this.data.id].isLiked
+        let picture = this.data.pictures[this.data.id]
+  
+        picture.isLiked = !picture.isLiked
+        picture.likeTimes++
+        
         this.setData(this.data)
       })
   }
