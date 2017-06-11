@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   title: 华中大相册微信小程序
-  version: 1.0.4
+  version: 1.0.5
   contact:
     name: Mondo
     email: mondogao@gmail.com
@@ -111,11 +111,17 @@ paths:
         '200':
           description: 登陆成功，不会再回传数据
           schema:
-            $ref: '#/definitions/Session'
+            type: object
+            properties:
+              session:
+                $ref: '#/definitions/Session'
         '201':
           description: 注册成功，客户端会再请求加密数据回传
           schema:
-            $ref: '#/definitions/Session'
+            type: object
+            properties:
+              session:
+                $ref: '#/definitions/Session'
 definitions:
   Album:
     type: object
