@@ -79,6 +79,7 @@ export const getAlbumPictures = id => {
       },
       comments: [
         {
+          id: '11',
           commenter: {
             id: 2,
             nickname: '麦冬',
@@ -87,6 +88,7 @@ export const getAlbumPictures = id => {
           date: '2014-05-06'
         },
         {
+          id: '12',
           commenter: {
             id: 2,
             nickname: '麦冬',
@@ -95,6 +97,7 @@ export const getAlbumPictures = id => {
           date: '2014-05-06'
         },
         {
+          id: '13',
           commenter: {
             id: 2,
             nickname: '麦冬',
@@ -103,6 +106,7 @@ export const getAlbumPictures = id => {
           date: '2014-05-06'
         },
         {
+          id: '17',
           commenter: {
             id: 2,
             nickname: '麦冬',
@@ -111,6 +115,7 @@ export const getAlbumPictures = id => {
           date: '2014-05-06'
         },
         {
+          id: '14',
           commenter: {
             id: 2,
             nickname: '麦冬',
@@ -133,6 +138,7 @@ export const getAlbumPictures = id => {
         },
         comments: [
           {
+            id: '1',
             commenter: {
               id: 2,
               nickname: '麦冬',
@@ -141,6 +147,7 @@ export const getAlbumPictures = id => {
             date: '2014-05-06'
           },
           {
+            id: '2',
             commenter: {
               id: 2,
               nickname: '麦冬',
@@ -149,6 +156,7 @@ export const getAlbumPictures = id => {
             date: '2014-05-06'
           },
           {
+            id: '3',
             commenter: {
               id: 2,
               nickname: '麦冬',
@@ -157,6 +165,7 @@ export const getAlbumPictures = id => {
             date: '2014-05-06'
           },
           {
+            id: '4',
             commenter: {
               id: 2,
               nickname: '麦冬',
@@ -165,6 +174,7 @@ export const getAlbumPictures = id => {
             date: '2014-05-06'
           },
           {
+            id: '5',
             commenter: {
               id: 2,
               nickname: '麦冬',
@@ -173,6 +183,7 @@ export const getAlbumPictures = id => {
             date: '2014-05-06'
           },
           {
+            id: '6',
             commenter: {
               id: 2,
               nickname: '麦冬',
@@ -181,6 +192,7 @@ export const getAlbumPictures = id => {
             date: '2014-05-06'
           },
           {
+            id: '7',
             commenter: {
               id: 2,
               nickname: '麦冬',
@@ -196,7 +208,15 @@ export const getAlbumPictures = id => {
 
 // pictures
 export const postPictureComments = (id, session, content) => {
-  return Promise.resolve()
+  return Promise.resolve({
+    id: '111',
+    commenter: {
+      id: '111',
+      nickname: '麦冬'
+    },
+    content,
+    date: '2017-01-12'
+  })
 }
 
 export const postPictureLikes = (id, session) => {

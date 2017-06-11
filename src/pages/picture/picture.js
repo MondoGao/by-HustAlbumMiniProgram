@@ -1,4 +1,4 @@
-import { getAlbumPictures } from 'sources'
+import { getAlbumPictures, postPictureLikes, postPictureComments } from 'sources'
 
 Page({
   data: {
@@ -8,16 +8,19 @@ Page({
     swiperCurrent: 0,
     pictures: {},
     picIds: [],
-    query: {}
+    commentValue: '',
+    
+    id: undefined,
+    albumId: undefined
   },
   
   refreshData() {
-    return getAlbumPictures(this.data.query.albumId)
+    return getAlbumPictures(this.data.albumId)
       .then(data => {
         wx.hideToast()
   
         this.setData({
-          swiperCurrent: data.result.indexOf(this.data.query.id),
+          swiperCurrent: data.result.indexOf(this.data.id),
           picIds: data.result,
           pictures: data.entities.pictures
         })
@@ -33,7 +36,8 @@ Page({
     })
     
     this.setData({
-      query
+      id: query.id,
+      albumId: query.albumId
     })
     
     if (!this.data.isLogin) {
@@ -57,7 +61,7 @@ Page({
   onShareAppMessage() {
     return {
       title: '华中大相册',
-      path: `${this.route}?id=${this.data.query.id}&$albumId=${this.data.query.albumId}`
+      path: `${this.route}?id=${this.data.id}&$albumId=${this.data.albumId}`
     }
   },
   
@@ -65,10 +69,13 @@ Page({
   
   },
   handleSwiperChange(e) {
+    const picId = this.data.pictures[this.data.picIds[e.detail.current]].id
+    
     wx.updateShareMenu({
-      path: `${this.route}?id=${this.data.pictures[this.data.picIds[e.detail.current]].id}&$albumId=${this.data.query.albumId}`
+      path: `${this.route}?id=${picId}&$albumId=${this.data.albumId}`
     })
     this.setData({
+      id: picId,
       swiperCurrent: e.detail.current
     })
   },
@@ -83,10 +90,32 @@ Page({
       withShareTicket: true
     })
   },
+  handleCommentInput(e) {
+    this.setData({
+      commentValue: e.detail.value
+    })
+  },
   handleSendCommentTap(e) {
+    wx.hideKeyboard()
+    wx.showLoading({
+      title: '评论中...',
+      mask: true
+    })
+    postPictureComments(this.data.id, wx.getStorageSync('session'), this.data.commentValue)
+      .then(data => {
+        let picture = this.data.pictures[this.data.id]
+        picture.comments.push(data)
+        picture.scrollIntoView = `comment-${data.id}`
+        this.setData(this.data)
   
+        wx.hideLoading()
+      })
   },
   handleLikeTap(e) {
-  
+    postPictureLikes(this.data.id, wx.getStorageSync('session'))
+      .then(() => {
+        this.data.pictures[this.data.id].isLiked = !this.data.pictures[this.data.id].isLiked
+        this.setData(this.data)
+      })
   }
 })

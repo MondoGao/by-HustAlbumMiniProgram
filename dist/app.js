@@ -409,7 +409,7 @@ const postUsers = code => {
       
     })
 }
-/* harmony export (immutable) */ __webpack_exports__["b"] = postUsers;
+/* harmony export (immutable) */ __webpack_exports__["d"] = postUsers;
 
 
 // albums
@@ -462,6 +462,7 @@ const getAlbumPictures = id => {
       },
       comments: [
         {
+          id: '11',
           commenter: {
             id: 2,
             nickname: '麦冬',
@@ -470,6 +471,7 @@ const getAlbumPictures = id => {
           date: '2014-05-06'
         },
         {
+          id: '12',
           commenter: {
             id: 2,
             nickname: '麦冬',
@@ -478,6 +480,7 @@ const getAlbumPictures = id => {
           date: '2014-05-06'
         },
         {
+          id: '13',
           commenter: {
             id: 2,
             nickname: '麦冬',
@@ -486,6 +489,7 @@ const getAlbumPictures = id => {
           date: '2014-05-06'
         },
         {
+          id: '17',
           commenter: {
             id: 2,
             nickname: '麦冬',
@@ -494,6 +498,7 @@ const getAlbumPictures = id => {
           date: '2014-05-06'
         },
         {
+          id: '14',
           commenter: {
             id: 2,
             nickname: '麦冬',
@@ -516,6 +521,7 @@ const getAlbumPictures = id => {
         },
         comments: [
           {
+            id: '1',
             commenter: {
               id: 2,
               nickname: '麦冬',
@@ -524,6 +530,7 @@ const getAlbumPictures = id => {
             date: '2014-05-06'
           },
           {
+            id: '2',
             commenter: {
               id: 2,
               nickname: '麦冬',
@@ -532,6 +539,7 @@ const getAlbumPictures = id => {
             date: '2014-05-06'
           },
           {
+            id: '3',
             commenter: {
               id: 2,
               nickname: '麦冬',
@@ -540,6 +548,7 @@ const getAlbumPictures = id => {
             date: '2014-05-06'
           },
           {
+            id: '4',
             commenter: {
               id: 2,
               nickname: '麦冬',
@@ -548,6 +557,7 @@ const getAlbumPictures = id => {
             date: '2014-05-06'
           },
           {
+            id: '5',
             commenter: {
               id: 2,
               nickname: '麦冬',
@@ -556,6 +566,7 @@ const getAlbumPictures = id => {
             date: '2014-05-06'
           },
           {
+            id: '6',
             commenter: {
               id: 2,
               nickname: '麦冬',
@@ -564,6 +575,7 @@ const getAlbumPictures = id => {
             date: '2014-05-06'
           },
           {
+            id: '7',
             commenter: {
               id: 2,
               nickname: '麦冬',
@@ -581,15 +593,23 @@ const getAlbumPictures = id => {
 
 // pictures
 const postPictureComments = (id, session, content) => {
-  return Promise.resolve()
+  return Promise.resolve({
+    id: '111',
+    commenter: {
+      id: '111',
+      nickname: '麦冬'
+    },
+    content,
+    date: '2017-01-12'
+  })
 }
-/* unused harmony export postPictureComments */
+/* harmony export (immutable) */ __webpack_exports__["b"] = postPictureComments;
 
 
 const postPictureLikes = (id, session) => {
   return Promise.resolve()
 }
-/* unused harmony export postPictureLikes */
+/* harmony export (immutable) */ __webpack_exports__["c"] = postPictureLikes;
 
 
 /***/ }),
@@ -1128,7 +1148,7 @@ App({
   },
   
   handleLoginSuccess(res) {
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_sources__["b" /* postUsers */])(res.code)
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_sources__["d" /* postUsers */])(res.code)
       .then(data => {
         this.data.isLogin = true
       })

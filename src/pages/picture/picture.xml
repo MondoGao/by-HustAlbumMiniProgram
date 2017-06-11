@@ -3,9 +3,13 @@
         <template is="picture" data="{{...pictures[item]}}"/>
     </swiper-item>
 </swiper>
+<form class="comment-form" catchtap="stopBubble">
+    <input bindinput="handleCommentInput" placeholder="评论..." placeholder-class="input-placeholder" confirm-type="send"/>
+    <image src="/assets/send@2x.png" catchtap="handleSendCommentTap"/>
+</form>
 
 <template name="picture">
-    <scroll-view scroll-y="{{true}}" class="container">
+    <scroll-view scroll-y="{{true}}" class="container" scroll-into-view="{{scrollIntoView}}">
         <image src="{{src}}" mode="aspectFill" bindtap="handlePicTap" data-src="{{src}}"></image>
         <view class="meta-wrapper">
             <view class="meta">
@@ -30,20 +34,16 @@
                     <text>评论区</text>
                 </view>
                 <view class="comments" scroll-y="{{true}}">
-                    <template wx:for="{{comments}}" wx:key="index" is="comment" data="{{index, content: item.content}}"/>
+                    <template wx:for="{{comments}}" wx:key="index" is="comment" data="{{index, ...item}}"/>
                 </view>
             </view>
 
         </view>
-        <form class="comment-form" catchtap="stopBubble">
-            <input placeholder="评论..." placeholder-class="input-placeholder" confirm-type="send"/>
-            <image src="/assets/send@2x.png" catchtap="handleSendCommentTap"/>
-        </form>
     </scroll-view>
 </template>
 
 <template name="comment">
-    <view class="comment">
+    <view class="comment" id="comment-{{id}}">
         <text class="floor">{{index + 1}}#</text>
         <text class="content">{{content}}</text>
     </view>
