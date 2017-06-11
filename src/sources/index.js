@@ -41,17 +41,18 @@ export const getAlbums = () => {
       "name": "string",
       "desc": "string",
       "coverSrc": "/assets/cover@2x.png",
-      "latelyUpdateTime": "string"
+      "latelyUpdateTime": "string",
+      picNum: 99,
     },
     {
       "id": "string",
       "name": "string",
       "desc": "string",
       "coverSrc": "/assets/cover@2x.png",
-      "latelyUpdateTime": "string"
+      "latelyUpdateTime": "string",
+      picNum: 98
     }
   ])
-    .then(data => normalize(data, albums))
 }
 
 export const getAlbum = id => {
@@ -61,6 +62,7 @@ export const getAlbum = id => {
     "desc": "string",
     "coverSrc": "/statics/images/9j20-kdj9.png",
     "latelyUpdateTime": "string",
+    picNum: 99,
     pictures: [
       {
         id: '1',

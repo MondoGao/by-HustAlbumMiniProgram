@@ -1,16 +1,18 @@
-<swiper class="swiper" bindchange="handleSwiperChange">
-    <swiper-item wx:for="{{albums}}" wx:key="{{index}}">
-        <template is="album" data="{{...item, date}}"/>
-    </swiper-item>
-</swiper>
-<view class="pagination">
-    <text>{{swiperCurrent + 1}}/{{albums.length}}</text>
+<view wx:if="{{!isLoading}}" class="container ani-fade-in">
+    <swiper class="swiper" bindchange="handleSwiperChange">
+        <swiper-item wx:for="{{albums}}" wx:key="{{index}}">
+            <template is="album" data="{{...item, date}}"/>
+        </swiper-item>
+    </swiper>
+    <view class="pagination">
+        <text>{{swiperCurrent + 1}}/{{albums.length}}</text>
+    </view>
 </view>
 
 <template name="album">
     <navigator class="album-card" url="/pages/album/album?id={{id}}">
         <view class="header">
-            <view class="title">{{title}}</view>
+            <view class="title">{{name}}</view>
             <view class="desc">{{desc}}</view>
             <view class="number">共 {{picNum}} 张</view>
         </view>

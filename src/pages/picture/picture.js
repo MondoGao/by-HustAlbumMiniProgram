@@ -67,9 +67,7 @@ Page({
     }
   },
   
-  stopBubble() {
-  
-  },
+  stopBubble() {},
   handleSwiperChange(e) {
     const picId = this.data.pictures[this.data.picIds[e.detail.current]].id
     

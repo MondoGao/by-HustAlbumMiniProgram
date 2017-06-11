@@ -409,7 +409,7 @@ const postUsers = code => {
       
     })
 }
-/* harmony export (immutable) */ __webpack_exports__["e"] = postUsers;
+/* harmony export (immutable) */ __webpack_exports__["f"] = postUsers;
 
 
 // albums
@@ -420,19 +420,20 @@ const getAlbums = () => {
       "name": "string",
       "desc": "string",
       "coverSrc": "/assets/cover@2x.png",
-      "latelyUpdateTime": "string"
+      "latelyUpdateTime": "string",
+      picNum: 99,
     },
     {
       "id": "string",
       "name": "string",
       "desc": "string",
       "coverSrc": "/assets/cover@2x.png",
-      "latelyUpdateTime": "string"
+      "latelyUpdateTime": "string",
+      picNum: 98
     }
   ])
-    .then(data => __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(data, __WEBPACK_IMPORTED_MODULE_2_sources_schemas__["a" /* albums */]))
 }
-/* unused harmony export getAlbums */
+/* harmony export (immutable) */ __webpack_exports__["e"] = getAlbums;
 
 
 const getAlbum = id => {
@@ -442,6 +443,7 @@ const getAlbum = id => {
     "desc": "string",
     "coverSrc": "/statics/images/9j20-kdj9.png",
     "latelyUpdateTime": "string",
+    picNum: 99,
     pictures: [
       {
         id: '1',
@@ -596,7 +598,7 @@ const getAlbumPictures = id => {
         ]
       }
   ])
-    .then(data => __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(data, __WEBPACK_IMPORTED_MODULE_2_sources_schemas__["b" /* pictures */]))
+    .then(data => __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(data, __WEBPACK_IMPORTED_MODULE_2_sources_schemas__["a" /* pictures */]))
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = getAlbumPictures;
 
@@ -1078,10 +1080,10 @@ exports.default = ValuesSchema;
 
 
 const pictures = [ new __WEBPACK_IMPORTED_MODULE_0_normalizr__["schema"].Entity('pictures')]
-/* harmony export (immutable) */ __webpack_exports__["b"] = pictures;
+/* harmony export (immutable) */ __webpack_exports__["a"] = pictures;
 
 const albums = [ new __WEBPACK_IMPORTED_MODULE_0_normalizr__["schema"].Entity('albums')]
-/* harmony export (immutable) */ __webpack_exports__["a"] = albums;
+/* unused harmony export albums */
 
 
 /***/ }),
@@ -1158,7 +1160,7 @@ App({
   },
   
   handleLoginSuccess(res) {
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_sources__["e" /* postUsers */])(res.code)
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_sources__["f" /* postUsers */])(res.code)
       .then(data => {
         this.data.isLogin = true
       })
