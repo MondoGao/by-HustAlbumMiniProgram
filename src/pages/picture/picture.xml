@@ -3,7 +3,7 @@
         <template is="picture" data="{{isShowShare, ...pictures[item]}}"/>
     </swiper-item>
 </swiper>
-<form class="comment-form" catchtap="stopBubble">
+<form wx:if="{{!isLoading && isLogin}}" class="comment-form" catchtap="stopBubble">
     <input value="{{tmpValue}}" bindinput="handleCommentInput" bindconfirm="handleSendCommentTap" placeholder="评论" placeholder-class="input-placeholder" confirm-type="send"/>
     <image src="/assets/send@2x.png" catchtap="handleSendCommentTap"/>
 </form>

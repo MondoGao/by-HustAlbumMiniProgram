@@ -22,8 +22,8 @@
         <view class="calendar">
             <view class="day">{{date.day}}</view>
             <view class="date">
+                <view class="lunar">最后更新于</view>·
                 <view class="month">{{date.month}}月</view>
-                <view class="lunar">{{lunar}}</view>
             </view>
         </view>
     </navigator>
