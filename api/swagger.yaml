@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   title: 华中大相册微信小程序
-  version: 1.0.9
+  version: 1.0.10
   contact:
     name: Mondo
     email: mondogao@gmail.com
@@ -68,14 +68,13 @@ paths:
       tags:
         - pictures
       parameters:
+        - $ref: '#/parameters/sessionParam'
         - $ref: '#/parameters/idPathParam'
         - name: data
           in: body
           schema:
             type: object
             properties:
-              session:
-                $ref: '#/definitions/Session'
               content:
                 type: string
           required: true
@@ -91,15 +90,8 @@ paths:
         - pictures
         - likes
       parameters:
+        - $ref: '#/parameters/sessionParam'
         - $ref: '#/parameters/idPathParam'
-        - name: data
-          in: body
-          schema:
-            type: object
-            properties:
-              session:
-                $ref: '#/definitions/Session'
-          required: true
       responses:
         '201':
           description: OK
@@ -109,16 +101,7 @@ paths:
       tags:
         - users
       parameters:
-        - name: data
-          in: body
-          schema:
-            type: object
-            properties:
-              session:
-                $ref: '#/definitions/Session'
-              encryptedData:
-                type: string
-          required: true
+        - $ref: '#/parameters/sessionParam'
       responses:
         '200':
           description: OK
@@ -220,5 +203,11 @@ parameters:
     name: id
     in: path
     description: id
+    type: string
+    required: true
+  sessionParam:
+    name: 3rd-session
+    description: session
+    in: header
     type: string
     required: true
