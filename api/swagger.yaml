@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   title: 华中大相册微信小程序
-  version: 1.0.11
+  version: 1.0.12
   contact:
     name: Mondo
     email: mondogao@gmail.com
@@ -111,6 +111,8 @@ paths:
               vi:
                 type: string
               signature:
+                type: string
+              encryptedData:
                 type: string
       responses:
         '200':
