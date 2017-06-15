@@ -3,17 +3,49 @@ import { normalize } from 'normalizr'
 import { commonFetchGet } from 'sources/utils'
 import { pictures, albums } from 'sources/schemas'
 
+const getSesstion = () => wx.getStorageSync('session')
+
+const wxRequestWrapper = settings => {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      ...settings,
+      success(res) {
+        resolve(res)
+      },
+      fail(res) {
+        reject(res)
+      }
+    })
+  })
+}
+
 // users
-export const putUsers = (session, encryptedData) => {
-  return Promise.resolve()
+export const putUsers = (vi, signature, encryptedData) => {
+  return wxRequestWrapper({
+    url: `/api/users`,
+    method: `PUT`,
+    header: {
+      'content-type': `application/json`,
+      '3rd-session': getSesstion()
+    },
+    data: {
+      vi,
+      signature,
+      encryptedData
+    }
+  })
 }
 
 export const postUsers = code => {
-  return Promise.resolve({
-    data: {
-      session: 'this is a fake session'
+  return wxRequestWrapper({
+    url: `/api/users`,
+    method: `POST`,
+    header: {
+      'content-type': `application/json`
     },
-    statusCode: '201'
+    data: {
+      code
+    }
   })
     .then(resp => {
       wx.setStorageSync('session', resp.data.session)
@@ -23,214 +55,61 @@ export const postUsers = code => {
           wx.getUserInfo({
             withCredentials: true,
             success(data) {
-              resolve(putUsers(resp.data.session, data.encryptedData))
+              resolve(putUsers(data.vi, data.signature, data.encryptedData))
+            },
+            fail(err) {
+              reject(err)
             }
           })
         })
       }
-      
-      
     })
 }
 
 // albums
 export const getAlbums = () => {
-  return Promise.resolve([
-    {
-      "id": "string",
-      "name": "string",
-      "desc": "string",
-      "coverSrc": "/assets/cover@2x.png",
-      "latelyUpdateTime": "string",
-      picNum: 99,
-    },
-    {
-      "id": "string",
-      "name": "string",
-      "desc": "string",
-      "coverSrc": "/assets/cover@2x.png",
-      "latelyUpdateTime": "string",
-      picNum: 98
-    }
-  ])
+  return wxRequestWrapper({
+    url: `/api/albums`
+  })
+    .then(res => res.data)
 }
 
 export const getAlbum = id => {
-  return Promise.resolve({
-    "id": "string",
-    "name": "string",
-    "desc": "string",
-    "coverSrc": "/statics/images/9j20-kdj9.png",
-    "latelyUpdateTime": "string",
-    picNum: 99,
-    pictures: [
-      {
-        id: '1',
-        src: '/assets/cover@2x.png'
-      },
-      {
-        id: '2',
-        src: '/assets/cover@2x.png'
-      }
-    ]
+  return wxRequestWrapper({
+    url: `/api/albums/${id}`
   })
+    .then(res => res.data)
 }
 
 export const getAlbumPictures = id => {
-  return Promise.resolve([
-    {
-      id: '1',
-      src: '/assets/cover@2x.png',
-      desc: '我拍的照片和我本人一样苦苦的嘿嘿我拍的照片和我本人一样苦苦的嘿嘿我拍的照片和我本人一样苦苦的嘿嘿我拍的照片和我本人一样苦苦的嘿嘿',
-      uploadDate: '2014-05-20',
-      isLiked: false,
-      likeTimes: 0,
-      user: {
-        id: 1,
-        nickname: 'SHINAN'
-      },
-      comments: [
-        {
-          id: '11',
-          commenter: {
-            id: 2,
-            nickname: '麦冬',
-          },
-          content: '还是本人比较帅',
-          date: '2014-05-06'
-        },
-        {
-          id: '12',
-          commenter: {
-            id: 2,
-            nickname: '麦冬',
-          },
-          content: '还是本人比较帅',
-          date: '2014-05-06'
-        },
-        {
-          id: '13',
-          commenter: {
-            id: 2,
-            nickname: '麦冬',
-          },
-          content: '还是本人比较帅',
-          date: '2014-05-06'
-        },
-        {
-          id: '17',
-          commenter: {
-            id: 2,
-            nickname: '麦冬',
-          },
-          content: '还是本人比较帅',
-          date: '2014-05-06'
-        },
-        {
-          id: '14',
-          commenter: {
-            id: 2,
-            nickname: '麦冬',
-          },
-          content: '还是本人比较帅',
-          date: '2014-05-06'
-        }
-      ]
-    },
-      {
-        id: '2',
-        src: '/assets/cover@2x.png',
-        desc: '我拍的照片和我本人一样苦苦的嘿嘿我拍的照片和我本人一样苦苦的嘿嘿我拍的照片和我本人一样苦苦的嘿嘿我拍的照片和我本人一样苦苦的嘿嘿',
-        uploadDate: '2014-05-20',
-        isLiked: false,
-        likeTimes: 0,
-        user: {
-          id: 1,
-          nickname: 'SHINAN'
-        },
-        comments: [
-          {
-            id: '1',
-            commenter: {
-              id: 2,
-              nickname: '麦冬',
-            },
-            content: '还是本人比较帅',
-            date: '2014-05-06'
-          },
-          {
-            id: '2',
-            commenter: {
-              id: 2,
-              nickname: '麦冬',
-            },
-            content: '还是本人比较帅',
-            date: '2014-05-06'
-          },
-          {
-            id: '3',
-            commenter: {
-              id: 2,
-              nickname: '麦冬',
-            },
-            content: '还是本人比较帅',
-            date: '2014-05-06'
-          },
-          {
-            id: '4',
-            commenter: {
-              id: 2,
-              nickname: '麦冬',
-            },
-            content: '还是本人比较帅',
-            date: '2014-05-06'
-          },
-          {
-            id: '5',
-            commenter: {
-              id: 2,
-              nickname: '麦冬',
-            },
-            content: '还是本人比较帅',
-            date: '2014-05-06'
-          },
-          {
-            id: '6',
-            commenter: {
-              id: 2,
-              nickname: '麦冬',
-            },
-            content: '还是本人比较帅',
-            date: '2014-05-06'
-          },
-          {
-            id: '7',
-            commenter: {
-              id: 2,
-              nickname: '麦冬',
-            },
-            content: '还是本人比较帅',
-            date: '2014-05-06'
-          }
-        ]
-      }
-  ])
-    .then(data => normalize(data, pictures))
+  return wxRequestWrapper({
+    url: `/api/albums/${id}/pictures`
+  })
+    .then(res => normalize(res.data, pictures))
 }
 
 // pictures
-export const postPictureComments = (id, session, content) => {
-  return Promise.resolve({
-    id: '111',
-    commenter: {
-      id: '111',
-      nickname: '麦冬'
+export const postPictureComments = (id, content) => {
+  return wxRequestWrapper({
+    url: `/pictures/${id}/comments`,
+    method: `POST`,
+    header: {
+      'content-type': `application/json`,
+      '3rd-session': getSesstion()
     },
-    content,
-    date: '2017-01-12'
+    data: {
+      content
+    }
   })
+    .then(res => res.data)
 }
 
-export const postPictureLikes = (id, session) => {
-  return Promise.resolve()
+export const postPictureLikes = id => {
+  return wxRequestWrapper({
+    url: `/pictures/${id}/likes`,
+    method: `POST`,
+    header: {
+      '3rd-session': getSesstion()
+    }
+  })
 }
