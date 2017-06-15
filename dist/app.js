@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 11);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -121,6 +121,88 @@ function denormalizeImmutable(schema, input, unvisit) {
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _ImmutableUtils = __webpack_require__(0);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var PolymorphicSchema = function () {
+  function PolymorphicSchema(definition, schemaAttribute) {
+    _classCallCheck(this, PolymorphicSchema);
+
+    if (schemaAttribute) {
+      this._schemaAttribute = typeof schemaAttribute === 'string' ? function (input) {
+        return input[schemaAttribute];
+      } : schemaAttribute;
+    }
+    this.define(definition);
+  }
+
+  _createClass(PolymorphicSchema, [{
+    key: 'define',
+    value: function define(definition) {
+      this.schema = definition;
+    }
+  }, {
+    key: 'getSchemaAttribute',
+    value: function getSchemaAttribute(input, parent, key) {
+      return !this.isSingleSchema && this._schemaAttribute(input, parent, key);
+    }
+  }, {
+    key: 'inferSchema',
+    value: function inferSchema(input, parent, key) {
+      if (this.isSingleSchema) {
+        return this.schema;
+      }
+
+      var attr = this.getSchemaAttribute(input, parent, key);
+      return this.schema[attr];
+    }
+  }, {
+    key: 'normalizeValue',
+    value: function normalizeValue(value, parent, key, visit, addEntity) {
+      var schema = this.inferSchema(value, parent, key);
+      if (!schema) {
+        return value;
+      }
+      var normalizedValue = visit(value, parent, key, schema, addEntity);
+      return this.isSingleSchema || normalizedValue === undefined || normalizedValue === null ? normalizedValue : { id: normalizedValue, schema: this.getSchemaAttribute(value, parent, key) };
+    }
+  }, {
+    key: 'denormalizeValue',
+    value: function denormalizeValue(value, unvisit) {
+      var schemaKey = (0, _ImmutableUtils.isImmutable)(value) ? value.get('schema') : value.schema;
+      if (!this.isSingleSchema && !schemaKey) {
+        return value;
+      }
+      var id = (0, _ImmutableUtils.isImmutable)(value) ? value.get('id') : value.id;
+      var schema = this.isSingleSchema ? this.schema : this.schema[schemaKey];
+      return unvisit(id || value, schema);
+    }
+  }, {
+    key: 'isSingleSchema',
+    get: function get() {
+      return !this._schemaAttribute;
+    }
+  }]);
+
+  return PolymorphicSchema;
+}();
+
+exports.default = PolymorphicSchema;
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -283,114 +365,61 @@ var denormalize = exports.denormalize = function denormalize(input, schema, enti
 };
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _ImmutableUtils = __webpack_require__(0);
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var PolymorphicSchema = function () {
-  function PolymorphicSchema(definition, schemaAttribute) {
-    _classCallCheck(this, PolymorphicSchema);
-
-    if (schemaAttribute) {
-      this._schemaAttribute = typeof schemaAttribute === 'string' ? function (input) {
-        return input[schemaAttribute];
-      } : schemaAttribute;
-    }
-    this.define(definition);
-  }
-
-  _createClass(PolymorphicSchema, [{
-    key: 'define',
-    value: function define(definition) {
-      this.schema = definition;
-    }
-  }, {
-    key: 'getSchemaAttribute',
-    value: function getSchemaAttribute(input, parent, key) {
-      return !this.isSingleSchema && this._schemaAttribute(input, parent, key);
-    }
-  }, {
-    key: 'inferSchema',
-    value: function inferSchema(input, parent, key) {
-      if (this.isSingleSchema) {
-        return this.schema;
-      }
-
-      var attr = this.getSchemaAttribute(input, parent, key);
-      return this.schema[attr];
-    }
-  }, {
-    key: 'normalizeValue',
-    value: function normalizeValue(value, parent, key, visit, addEntity) {
-      var schema = this.inferSchema(value, parent, key);
-      if (!schema) {
-        return value;
-      }
-      var normalizedValue = visit(value, parent, key, schema, addEntity);
-      return this.isSingleSchema || normalizedValue === undefined || normalizedValue === null ? normalizedValue : { id: normalizedValue, schema: this.getSchemaAttribute(value, parent, key) };
-    }
-  }, {
-    key: 'denormalizeValue',
-    value: function denormalizeValue(value, unvisit) {
-      var schemaKey = (0, _ImmutableUtils.isImmutable)(value) ? value.get('schema') : value.schema;
-      if (!this.isSingleSchema && !schemaKey) {
-        return value;
-      }
-      var id = (0, _ImmutableUtils.isImmutable)(value) ? value.get('id') : value.id;
-      var schema = this.isSingleSchema ? this.schema : this.schema[schemaKey];
-      return unvisit(id || value, schema);
-    }
-  }, {
-    key: 'isSingleSchema',
-    get: function get() {
-      return !this._schemaAttribute;
-    }
-  }]);
-
-  return PolymorphicSchema;
-}();
-
-exports.default = PolymorphicSchema;
-
-/***/ }),
 /* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_normalizr__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_normalizr__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_normalizr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_normalizr__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sources_utils__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_sources_schemas__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sources_schemas__ = __webpack_require__(9);
 
 
 
 
+const sourceSettings = {
+  publicPath: `http://pic.hustonline.net/api`
+}
+
+const getSesstion = () => wx.getStorageSync('session')
+
+const wxRequestWrapper = settings => {
+  return new Promise((resolve, reject) => {
+    wx.request(Object.assign(settings, {
+      success(res) {
+        resolve(res)
+      },
+      fail(res) {
+        reject(res)
+      }
+    }))
+  })
+}
 
 // users
-const putUsers = (session, encryptedData) => {
-  return Promise.resolve()
+const putUsers = (vi, signature, encryptedData) => {
+  return wxRequestWrapper({
+    url: `${sourceSettings.publicPath}/users`,
+    method: `PUT`,
+    header: {
+      '3rd-session': getSesstion()
+    },
+    data: {
+      vi,
+      signature,
+      encryptedData
+    }
+  })
 }
 /* unused harmony export putUsers */
 
 
 const postUsers = code => {
-  return Promise.resolve({
+  return wxRequestWrapper({
+    url: `${sourceSettings.publicPath}/users`,
+    method: `POST`,
     data: {
-      session: 'this is a fake session'
-    },
-    statusCode: '201'
+      code
+    }
   })
     .then(resp => {
       wx.setStorageSync('session', resp.data.session)
@@ -400,13 +429,14 @@ const postUsers = code => {
           wx.getUserInfo({
             withCredentials: true,
             success(data) {
-              resolve(putUsers(resp.data.session, data.encryptedData))
+              resolve(putUsers(data.vi, data.signature, data.encryptedData))
+            },
+            fail(err) {
+              reject(err)
             }
           })
         })
       }
-      
-      
     })
 }
 /* harmony export (immutable) */ __webpack_exports__["f"] = postUsers;
@@ -414,212 +444,57 @@ const postUsers = code => {
 
 // albums
 const getAlbums = () => {
-  return Promise.resolve([
-    {
-      "id": "string",
-      "name": "string",
-      "desc": "string",
-      "coverSrc": "/assets/cover@2x.png",
-      "latelyUpdateTime": "string",
-      picNum: 99,
-    },
-    {
-      "id": "string",
-      "name": "string",
-      "desc": "string",
-      "coverSrc": "/assets/cover@2x.png",
-      "latelyUpdateTime": "string",
-      picNum: 98
-    }
-  ])
+  return wxRequestWrapper({
+    url: `${sourceSettings.publicPath}/albums`
+  })
+    .then(res => res.data)
 }
 /* harmony export (immutable) */ __webpack_exports__["e"] = getAlbums;
 
 
 const getAlbum = id => {
-  return Promise.resolve({
-    "id": "string",
-    "name": "string",
-    "desc": "string",
-    "coverSrc": "/statics/images/9j20-kdj9.png",
-    "latelyUpdateTime": "string",
-    picNum: 99,
-    pictures: [
-      {
-        id: '1',
-        src: '/assets/cover@2x.png'
-      },
-      {
-        id: '2',
-        src: '/assets/cover@2x.png'
-      }
-    ]
+  return wxRequestWrapper({
+    url: `${sourceSettings.publicPath}/albums/${id}`
   })
+    .then(res => res.data)
 }
 /* harmony export (immutable) */ __webpack_exports__["d"] = getAlbum;
 
 
 const getAlbumPictures = id => {
-  return Promise.resolve([
-    {
-      id: '1',
-      src: '/assets/cover@2x.png',
-      desc: '我拍的照片和我本人一样苦苦的嘿嘿我拍的照片和我本人一样苦苦的嘿嘿我拍的照片和我本人一样苦苦的嘿嘿我拍的照片和我本人一样苦苦的嘿嘿',
-      uploadDate: '2014-05-20',
-      isLiked: false,
-      likeTimes: 0,
-      user: {
-        id: 1,
-        nickname: 'SHINAN'
-      },
-      comments: [
-        {
-          id: '11',
-          commenter: {
-            id: 2,
-            nickname: '麦冬',
-          },
-          content: '还是本人比较帅',
-          date: '2014-05-06'
-        },
-        {
-          id: '12',
-          commenter: {
-            id: 2,
-            nickname: '麦冬',
-          },
-          content: '还是本人比较帅',
-          date: '2014-05-06'
-        },
-        {
-          id: '13',
-          commenter: {
-            id: 2,
-            nickname: '麦冬',
-          },
-          content: '还是本人比较帅',
-          date: '2014-05-06'
-        },
-        {
-          id: '17',
-          commenter: {
-            id: 2,
-            nickname: '麦冬',
-          },
-          content: '还是本人比较帅',
-          date: '2014-05-06'
-        },
-        {
-          id: '14',
-          commenter: {
-            id: 2,
-            nickname: '麦冬',
-          },
-          content: '还是本人比较帅',
-          date: '2014-05-06'
-        }
-      ]
-    },
-      {
-        id: '2',
-        src: '/assets/cover@2x.png',
-        desc: '我拍的照片和我本人一样苦苦的嘿嘿我拍的照片和我本人一样苦苦的嘿嘿我拍的照片和我本人一样苦苦的嘿嘿我拍的照片和我本人一样苦苦的嘿嘿',
-        uploadDate: '2014-05-20',
-        isLiked: false,
-        likeTimes: 0,
-        user: {
-          id: 1,
-          nickname: 'SHINAN'
-        },
-        comments: [
-          {
-            id: '1',
-            commenter: {
-              id: 2,
-              nickname: '麦冬',
-            },
-            content: '还是本人比较帅',
-            date: '2014-05-06'
-          },
-          {
-            id: '2',
-            commenter: {
-              id: 2,
-              nickname: '麦冬',
-            },
-            content: '还是本人比较帅',
-            date: '2014-05-06'
-          },
-          {
-            id: '3',
-            commenter: {
-              id: 2,
-              nickname: '麦冬',
-            },
-            content: '还是本人比较帅',
-            date: '2014-05-06'
-          },
-          {
-            id: '4',
-            commenter: {
-              id: 2,
-              nickname: '麦冬',
-            },
-            content: '还是本人比较帅',
-            date: '2014-05-06'
-          },
-          {
-            id: '5',
-            commenter: {
-              id: 2,
-              nickname: '麦冬',
-            },
-            content: '还是本人比较帅',
-            date: '2014-05-06'
-          },
-          {
-            id: '6',
-            commenter: {
-              id: 2,
-              nickname: '麦冬',
-            },
-            content: '还是本人比较帅',
-            date: '2014-05-06'
-          },
-          {
-            id: '7',
-            commenter: {
-              id: 2,
-              nickname: '麦冬',
-            },
-            content: '还是本人比较帅',
-            date: '2014-05-06'
-          }
-        ]
-      }
-  ])
-    .then(data => __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(data, __WEBPACK_IMPORTED_MODULE_2_sources_schemas__["a" /* pictures */]))
+  return wxRequestWrapper({
+    url: `${sourceSettings.publicPath}/albums/${id}/pictures`
+  })
+    .then(res => __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(res.data, __WEBPACK_IMPORTED_MODULE_1_sources_schemas__["a" /* pictures */]))
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = getAlbumPictures;
 
 
 // pictures
-const postPictureComments = (id, session, content) => {
-  return Promise.resolve({
-    id: '111',
-    commenter: {
-      id: '111',
-      nickname: '麦冬'
+const postPictureComments = (id, content) => {
+  return wxRequestWrapper({
+    url: `${sourceSettings.publicPath}/pictures/${id}/comments`,
+    method: `POST`,
+    header: {
+      '3rd-session': getSesstion()
     },
-    content,
-    date: '2017-01-12'
+    data: {
+      content
+    }
   })
+    .then(res => res.data)
 }
 /* harmony export (immutable) */ __webpack_exports__["b"] = postPictureComments;
 
 
-const postPictureLikes = (id, session) => {
-  return Promise.resolve()
+const postPictureLikes = id => {
+  return wxRequestWrapper({
+    url: `${sourceSettings.publicPath}/pictures/${id}/likes`,
+    method: `POST`,
+    header: {
+      '3rd-session': getSesstion()
+    }
+  })
 }
 /* harmony export (immutable) */ __webpack_exports__["c"] = postPictureLikes;
 
@@ -638,7 +513,7 @@ exports.denormalize = exports.normalize = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Polymorphic = __webpack_require__(2);
+var _Polymorphic = __webpack_require__(1);
 
 var _Polymorphic2 = _interopRequireDefault(_Polymorphic);
 
@@ -964,7 +839,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Polymorphic = __webpack_require__(2);
+var _Polymorphic = __webpack_require__(1);
 
 var _Polymorphic2 = _interopRequireDefault(_Polymorphic);
 
@@ -1020,7 +895,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Polymorphic = __webpack_require__(2);
+var _Polymorphic = __webpack_require__(1);
 
 var _Polymorphic2 = _interopRequireDefault(_Polymorphic);
 
@@ -1075,7 +950,7 @@ exports.default = ValuesSchema;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_normalizr__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_normalizr__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_normalizr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_normalizr__);
 
 
@@ -1088,50 +963,6 @@ const albums = [ new __WEBPACK_IMPORTED_MODULE_0_normalizr__["schema"].Entity('a
 
 /***/ }),
 /* 10 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_normalizr__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_normalizr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_normalizr__);
-
-
-/**
- * 检查 HTTP 错误
- * @param response
- * @return {Response|Error}
- */
-const checkStatus = (response) => {
-  if (response.status >= 200 && response.status < 300) {
-    return response
-  } else {
-    let error = new Error(response.statusText)
-    error.response = response
-    throw error
-  }
-}
-/* unused harmony export checkStatus */
-
-
-/**
- * 通用 Fetch Get 方法
- * @param {string} url URl
- * @param {schema} schema 用于标准化返回数据的 schema
- * @return {Promise}
- */
-const commonFetchGet = (url, schema) => (
-  fetch(url, {
-    credentials: 'same-origin'
-  })
-    .then(checkStatus)
-    .then(data => data.json())
-    .then(data => __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(data, schema))
-)
-/* unused harmony export commonFetchGet */
-
-
-
-/***/ }),
-/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

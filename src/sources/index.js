@@ -1,31 +1,32 @@
 import { normalize } from 'normalizr'
 
-import { commonFetchGet } from 'sources/utils'
-import { pictures, albums } from 'sources/schemas'
+import { pictures } from 'sources/schemas'
+
+const sourceSettings = {
+  publicPath: `http://pic.hustonline.net/api`
+}
 
 const getSesstion = () => wx.getStorageSync('session')
 
 const wxRequestWrapper = settings => {
   return new Promise((resolve, reject) => {
-    wx.request({
-      ...settings,
+    wx.request(Object.assign(settings, {
       success(res) {
         resolve(res)
       },
       fail(res) {
         reject(res)
       }
-    })
+    }))
   })
 }
 
 // users
 export const putUsers = (vi, signature, encryptedData) => {
   return wxRequestWrapper({
-    url: `/api/users`,
+    url: `${sourceSettings.publicPath}/users`,
     method: `PUT`,
     header: {
-      'content-type': `application/json`,
       '3rd-session': getSesstion()
     },
     data: {
@@ -38,11 +39,8 @@ export const putUsers = (vi, signature, encryptedData) => {
 
 export const postUsers = code => {
   return wxRequestWrapper({
-    url: `/api/users`,
+    url: `${sourceSettings.publicPath}/users`,
     method: `POST`,
-    header: {
-      'content-type': `application/json`
-    },
     data: {
       code
     }
@@ -69,21 +67,21 @@ export const postUsers = code => {
 // albums
 export const getAlbums = () => {
   return wxRequestWrapper({
-    url: `/api/albums`
+    url: `${sourceSettings.publicPath}/albums`
   })
     .then(res => res.data)
 }
 
 export const getAlbum = id => {
   return wxRequestWrapper({
-    url: `/api/albums/${id}`
+    url: `${sourceSettings.publicPath}/albums/${id}`
   })
     .then(res => res.data)
 }
 
 export const getAlbumPictures = id => {
   return wxRequestWrapper({
-    url: `/api/albums/${id}/pictures`
+    url: `${sourceSettings.publicPath}/albums/${id}/pictures`
   })
     .then(res => normalize(res.data, pictures))
 }
@@ -91,10 +89,9 @@ export const getAlbumPictures = id => {
 // pictures
 export const postPictureComments = (id, content) => {
   return wxRequestWrapper({
-    url: `/pictures/${id}/comments`,
+    url: `${sourceSettings.publicPath}/pictures/${id}/comments`,
     method: `POST`,
     header: {
-      'content-type': `application/json`,
       '3rd-session': getSesstion()
     },
     data: {
@@ -106,7 +103,7 @@ export const postPictureComments = (id, content) => {
 
 export const postPictureLikes = id => {
   return wxRequestWrapper({
-    url: `/pictures/${id}/likes`,
+    url: `${sourceSettings.publicPath}/pictures/${id}/likes`,
     method: `POST`,
     header: {
       '3rd-session': getSesstion()
