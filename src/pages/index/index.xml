@@ -20,10 +20,15 @@
             <image src="{{coverSrc}}" mode="aspectFill"/>
         </view>
         <view class="calendar">
-            <view class="day">{{date.day}}</view>
-            <view class="date">
-                <view class="lunar">{{lunar ? lunar : '最后更新于'}}</view>
-                <view class="month">{{date.month}}月</view>
+            <view wx:if="{{lunar}}">
+                <view class="day">{{date.day}}</view>
+                <view class="date">
+                    <view class="lunar">{{lunar}}</view>
+                    <view class="month">{{date.month}}月</view>
+                </view>
+            </view>
+            <view wx:else class="update-time">
+                {{date.year}}.{{date.month}}.{{date.day}} 更新
             </view>
         </view>
     </navigator>

@@ -21,7 +21,8 @@ Page({
           return Object.assign({}, album, {
             date: {
               month: album.lunar ? new Date().getMonth() + 1 : date.getMonth() + 1,
-              day: album.lunar ? new Date().getDate() : date.getDate()
+              day: album.lunar ? new Date().getDate() : date.getDate(),
+              year: album.lunar ? new Date().getFullYear() : date.getFullYear(),
             }
           })
         })

@@ -72,6 +72,13 @@
     .lunar {
     }
   }
+  
+  .update-time {
+    line-height: 146rpx;
+    text-align: center;
+    font-size: 30rpx;
+    color: $colorFontDay;
+  }
 }
 .swiper {
   height: 1000rpx;
