@@ -23,8 +23,8 @@ Page({
       .then(data => {
         wx.hideLoading()
         const picId = this.data.id
-        const swiperIndex = data.result.indexOf(picId)
-        
+        let swiperIndex = data.result.indexOf(+picId)
+  
         this.setData({
           id: picId ? picId : data.result[0],
           isLoading: false,
