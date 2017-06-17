@@ -377,7 +377,7 @@ var denormalize = exports.denormalize = function denormalize(input, schema, enti
 
 
 const sourceSettings = {
-  publicPath: `http://pic.hustonline.net/api`
+  publicPath: `https://hustpic.hustonline.net/api`
 }
 
 const getSesstion = () => wx.getStorageSync('session')
@@ -386,6 +386,9 @@ const wxRequestWrapper = settings => {
   return new Promise((resolve, reject) => {
     wx.request(Object.assign(settings, {
       success(res) {
+        if (res.statusCode >= 400 || res.statusCode < 200) {
+          reject(res)
+        }
         resolve(res)
       },
       fail(res) {
@@ -398,7 +401,7 @@ const wxRequestWrapper = settings => {
 // users
 const putUsers = (vi, signature, encryptedData) => {
   return wxRequestWrapper({
-    url: `${sourceSettings.publicPath}/users`,
+    url: `${sourceSettings.publicPath}/users/`,
     method: `PUT`,
     header: {
       '3rd-session': getSesstion()
@@ -415,7 +418,7 @@ const putUsers = (vi, signature, encryptedData) => {
 
 const postUsers = code => {
   return wxRequestWrapper({
-    url: `${sourceSettings.publicPath}/users`,
+    url: `${sourceSettings.publicPath}/users/`,
     method: `POST`,
     data: {
       code
@@ -424,7 +427,10 @@ const postUsers = code => {
     .then(resp => {
       wx.setStorageSync('session', resp.data.session)
   
+      console.log(resp)
+  
       if (resp.statusCode === '201') {
+  
         return new Promise((resolve, reject) => {
           wx.getUserInfo({
             withCredentials: true,
@@ -445,7 +451,7 @@ const postUsers = code => {
 // albums
 const getAlbums = () => {
   return wxRequestWrapper({
-    url: `${sourceSettings.publicPath}/albums`
+    url: `${sourceSettings.publicPath}/albums/`
   })
     .then(res => res.data)
 }
@@ -473,7 +479,7 @@ const getAlbumPictures = id => {
 // pictures
 const postPictureComments = (id, content) => {
   return wxRequestWrapper({
-    url: `${sourceSettings.publicPath}/pictures/${id}/comments`,
+    url: `${sourceSettings.publicPath}/pictures/${id}/comments/`,
     method: `POST`,
     header: {
       '3rd-session': getSesstion()
@@ -489,7 +495,7 @@ const postPictureComments = (id, content) => {
 
 const postPictureLikes = id => {
   return wxRequestWrapper({
-    url: `${sourceSettings.publicPath}/pictures/${id}/likes`,
+    url: `${sourceSettings.publicPath}/pictures/${id}/likes/`,
     method: `POST`,
     header: {
       '3rd-session': getSesstion()
@@ -993,6 +999,8 @@ App({
   handleLoginSuccess(res) {
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_sources__["f" /* postUsers */])(res.code)
       .then(data => {
+        console.log('登陆成功')
+        
         this.data.isLogin = true
       })
   }

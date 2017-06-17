@@ -4,7 +4,7 @@ Page({
   data: {
     isLoading: true,
     swiperCurrent: 0,
-    date: {
+    nowDate: {
       month: new Date().getMonth() + 1,
       day: new Date().getDate(),
     },
@@ -14,9 +14,21 @@ Page({
   refreshData() {
     getAlbums()
       .then(data => {
+        let newData = Object.keys(data).map(id => {
+          const album = data[id]
+          const date = new Date(album.latestUpdateTime)
+          
+          return Object.assign({}, album, {
+            date: {
+              month: album.lunar ? new Date().getMonth() + 1 : date.getMonth() + 1,
+              day: album.lunar ? new Date().getDate() : date.getDate()
+            }
+          })
+        })
+        
         this.setData({
           isLoading: false,
-          albums: data
+          albums: newData
         })
       })
   },

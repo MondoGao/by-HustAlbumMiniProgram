@@ -1,7 +1,7 @@
 <view wx:if="{{!isLoading}}" class="container ani-fade-in">
     <swiper class="swiper" bindchange="handleSwiperChange" duration="250">
         <swiper-item wx:for="{{albums}}" wx:key="{{index}}">
-            <template is="album" data="{{...item, date}}"/>
+            <template is="album" data="{{...item}}"/>
         </swiper-item>
     </swiper>
     <view class="pagination">
@@ -13,7 +13,7 @@
     <navigator class="album-card" url="/pages/album/album?id={{id}}">
         <view class="header">
             <view class="title">{{name}}</view>
-            <view class="desc">{{desc}}</view>
+            <view class="desc">{{description}}</view>
             <view class="number">共 {{picNum}} 张</view>
         </view>
         <view class="cover">
@@ -22,7 +22,7 @@
         <view class="calendar">
             <view class="day">{{date.day}}</view>
             <view class="date">
-                <view class="lunar">最后更新于</view>·
+                <view class="lunar">{{lunar ? lunar : '最后更新于'}}</view>
                 <view class="month">{{date.month}}月</view>
             </view>
         </view>

@@ -23,6 +23,8 @@ App({
   handleLoginSuccess(res) {
     postUsers(res.code)
       .then(data => {
+        console.log('登陆成功')
+        
         this.data.isLogin = true
       })
   }

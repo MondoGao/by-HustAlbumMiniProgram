@@ -51,6 +51,9 @@ Page({
     if (!this.data.isLogin) {
       this.setData({
         checkLoginTimer: setInterval(() => {
+  
+          console.log(App.data)
+  
           if (App.data.isLogin) {
             clearInterval(this.data.checkLoginTimer)
             
