@@ -156,7 +156,7 @@ definitions:
         type: string
       coverSrc:
         $ref: '#/definitions/ImageSrc'
-      latelyUpdateTime:
+      latestUpdateTime:
         type: string
         format: date
       picNum:
