@@ -1,3 +1,3 @@
 module.exports = {
-  navigationBarTitleText: '风景'
+  navigationBarTitleText: '相册'
 }

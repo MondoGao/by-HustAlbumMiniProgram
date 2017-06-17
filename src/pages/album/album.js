@@ -10,9 +10,12 @@ Page({
   },
   refreshData() {
     getAlbum(this.data.id)
-      .then(data => {
+      .then(resData => {
         this.data.isLoading = false
-        this.setData(Object.assign({}, this.data, data))
+        this.setData(Object.assign({}, this.data, resData))
+        wx.setNavigationBarTitle({
+          title: resData.name
+        })
       })
   },
   
