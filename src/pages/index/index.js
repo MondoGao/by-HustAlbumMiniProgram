@@ -8,6 +8,7 @@ Page({
       month: new Date().getMonth() + 1,
       day: new Date().getDate(),
     },
+    countDown: 1,
   
     albums: undefined
   },
@@ -34,6 +35,19 @@ Page({
       })
   },
   
+  onLoad() {
+    const now = new Date()
+    const baseDate  = `06-20`
+    let year = now.getFullYear()
+    
+    if (new Date(`${year}-${baseDate}`) - now < 0) {
+      year++
+    }
+    
+    this.setData({
+      countDown: ~~((new Date(`${year}-${baseDate}`) - now)/1000/60/60/24)
+    })
+  },
   onShow() {
     this.refreshData()
   },

@@ -1,7 +1,7 @@
 <view wx:if="{{!isLoading}}" class="container ani-fade-in">
     <swiper class="swiper" bindchange="handleSwiperChange" duration="250">
         <swiper-item wx:for="{{albums}}" wx:key="{{index}}">
-            <template is="album" data="{{...item}}"/>
+            <template is="album" data="{{...item, countDown}}"/>
         </swiper-item>
     </swiper>
     <view class="pagination">
@@ -12,8 +12,8 @@
 <template name="album">
     <navigator class="album-card" url="/pages/album/album?id={{id}}">
         <view class="header">
-            <view class="title">{{name}}</view>
-            <view class="desc">{{description}}</view>
+            <view class="title">{{title}}</view>
+            <view class="desc">{{id == 1 ? '距离毕业典礼还有 ' + countDown + ' 天' : description}}</view>
             <view class="number">共 {{picNum}} 张</view>
         </view>
         <view class="cover">

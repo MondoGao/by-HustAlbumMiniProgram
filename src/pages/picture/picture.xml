@@ -14,7 +14,7 @@
         <view class="meta-wrapper">
             <view class="meta">
                 <view class="desc">
-                    {{desc}}
+                    {{description}}
                 </view>
                 <view class="info">
                     <text class="date">{{uploadDate}}</text>

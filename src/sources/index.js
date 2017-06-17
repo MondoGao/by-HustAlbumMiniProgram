@@ -6,6 +6,17 @@ const sourceSettings = {
   publicPath: `https://hustpic.hustonline.net/api`
 }
 
+const mapping = {
+  '毕业日历相册': '毕业特辑',
+  '华中大人物': '人物',
+  '华中大一景': '风景',
+  '故事': '故事',
+  'huster看天下': '天下',
+  '多年以前的岁月': '记忆',
+  '物件': '物件',
+  '青春huster': '青春',
+}
+
 const getSesstion = () => wx.getStorageSync('session')
 
 const wxRequestWrapper = settings => {
@@ -76,6 +87,10 @@ export const getAlbums = () => {
     url: `${sourceSettings.publicPath}/albums/`
   })
     .then(res => res.data)
+    .then(data => data.map(album => Object.assign(album, {
+        title: mapping[album.name]
+      }))
+    )
 }
 
 export const getAlbum = id => {

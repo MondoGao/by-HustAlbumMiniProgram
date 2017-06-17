@@ -111,7 +111,7 @@ Page({
         title: '评论中...',
         mask: true
       })
-      postPictureComments(this.data.id, wx.getStorageSync('session'), this.data.commentValue)
+      postPictureComments(this.data.id, this.data.commentValue)
         .then(data => {
           let picture = this.data.pictures[this.data.id]
       
@@ -134,7 +134,7 @@ Page({
     }
   },
   handleLikeTap(e) {
-    postPictureLikes(this.data.id, wx.getStorageSync('session'))
+    postPictureLikes(this.data.id)
       .then(() => {
         let picture = this.data.pictures[this.data.id]
   
