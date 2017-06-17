@@ -18,7 +18,7 @@
                 </view>
                 <view class="info">
                     <text class="date">{{uploadDate}}</text>
-                    <text class="nickname">BY {{user.nickname}}</text>
+                    <text class="nickname">BY {{author.username}}</text>
                     <view class="like" catchtap="handleLikeTap">
                         <image src="/assets/picture-like{{isLiked ? 'd' : ''}}@2x.png"/>
                         {{likeTimes > 0 ? likeTimes : '喜欢'}}
@@ -35,6 +35,7 @@
                 </view>
                 <view class="comments" scroll-y="{{true}}">
                     <template wx:for="{{comments}}" wx:key="index" is="comment" data="{{index, ...item}}"/>
+                    <view class="no-comment-tip" wx:if="{{comments.length < 1}}">无评论，快来抢沙发吧~</view>
                 </view>
             </view>
 
