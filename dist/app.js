@@ -410,7 +410,7 @@ const wxRequestWrapper = settings => {
 }
 
 // users
-const putUsers = (vi, signature, encryptedData) => {
+const putUsers = (iv, signature, encryptedData) => {
   return wxRequestWrapper({
     url: `${sourceSettings.publicPath}/users/`,
     method: `PUT`,
@@ -418,7 +418,7 @@ const putUsers = (vi, signature, encryptedData) => {
       '3rd-session': getSesstion()
     },
     data: {
-      vi,
+      iv,
       signature,
       encryptedData
     }
@@ -437,16 +437,14 @@ const postUsers = code => {
   })
     .then(resp => {
       wx.setStorageSync('session', resp.data.session)
-  
-      console.log(resp)
-  
-      if (resp.statusCode === '201') {
+      
+      if (resp.statusCode == '201') {
   
         return new Promise((resolve, reject) => {
           wx.getUserInfo({
             withCredentials: true,
             success(data) {
-              resolve(putUsers(data.vi, data.signature, data.encryptedData))
+              resolve(putUsers(data.iv, data.signature, data.encryptedData))
             },
             fail(err) {
               reject(err)

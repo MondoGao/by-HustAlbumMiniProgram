@@ -89,10 +89,10 @@ Page({
     })
   },
   handlePicTap(e) {
-    // wx.previewImage({
-    //   current: e.target.dataset.src,
-    //   urls: this.data.pictures.map(pic => pic.src)
-    // })
+    wx.previewImage({
+      current: e.target.dataset.src,
+      urls: Object.keys(this.data.pictures).map(picId => this.data.pictures[picId].src)
+    })
   },
   handleShareTap(e) {
     wx.showShareMenu({
