@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   title: 华中大相册微信小程序
-  version: 1.0.13
+  version: 1.0.14
   contact:
     name: Mondo
     email: mondogao@gmail.com
@@ -168,6 +168,8 @@ definitions:
         $ref: '#/definitions/Id'
       src:
         type: string
+      previewSrc:
+        $ref: '#/definitions/ImageSrc'
       desc:
         type: string
       uploadDate:
