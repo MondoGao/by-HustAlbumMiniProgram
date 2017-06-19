@@ -31,9 +31,9 @@ Page({
       start = 0
     }
   
-    swiperCurrent = start < 1 ? index : index % start
+    swiperCurrent = start < 1 ? index : index - start
     end = start + splitNum
-  
+    
     this.setData({
       showingPicIds: this.data.picIds.slice(start, end),
       swiperCurrent
@@ -110,7 +110,7 @@ Page({
               })
             }
           }
-        }, 100)
+        }, 0)
       ]
     })
   },
