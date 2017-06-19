@@ -17,7 +17,7 @@
                     {{description}}
                 </view>
                 <view class="info">
-                    <text class="date">{{uploadDate}}</text>
+                    <text class="date">{{takenTime.year}}-{{takenTime.month}}-{{takenTime.day}}</text>
                     <text class="nickname">BY {{author.username}}</text>
                     <view class="like" catchtap="handleLikeTap">
                         <image src="/assets/picture-like{{isLiked ? 'd' : ''}}@2x.png"/>

@@ -24,6 +24,17 @@ Page({
         wx.hideLoading()
         const picId = this.data.id
         let swiperIndex = data.result.indexOf(+picId)
+        
+        const picData = data.result.map(picId => {
+          let pic = data.entities.pictures[picId]
+          let takenTime = new Date(pic.takenTime)
+          
+          pic.takenTime = {
+            year: takenTime.getFullYear(),
+            month: takenTime.getMonth() + 1,
+            day: takenTime.getDate()
+          }
+        })
   
         this.setData({
           id: picId ? picId : data.result[0],
