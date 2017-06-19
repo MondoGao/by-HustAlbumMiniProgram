@@ -100,7 +100,10 @@ export const getAlbum = id => {
 
 export const getAlbumPictures = id => {
   return wxRequestWrapper({
-    url: `${sourceSettings.publicPath}/albums/${id}/pictures`
+    url: `${sourceSettings.publicPath}/albums/${id}/pictures`,
+    header: {
+      '3rd-session': getSesstion()
+    }
   })
     .then(res => normalize(res.data, pictures))
 }

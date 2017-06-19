@@ -482,7 +482,10 @@ const getAlbum = id => {
 
 const getAlbumPictures = id => {
   return wxRequestWrapper({
-    url: `${sourceSettings.publicPath}/albums/${id}/pictures`
+    url: `${sourceSettings.publicPath}/albums/${id}/pictures`,
+    header: {
+      '3rd-session': getSesstion()
+    }
   })
     .then(res => __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(res.data, __WEBPACK_IMPORTED_MODULE_1_sources_schemas__["a" /* pictures */]))
 }

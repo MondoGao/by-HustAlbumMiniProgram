@@ -49,25 +49,19 @@ Page({
   onLoad(query) {
     const App = getApp()
     
-    // wx.showLoading({
-    //   title: '加载图片中...',
-    //   mask: true
-    // })
-    
     this.setData({
       id: query.id,
       albumId: query.albumId
     })
     
-    if (!this.data.isLogin) {
+    if (!App.data.isLogin) {
       this.setData({
         checkLoginTimer: setInterval(() => {
-  
-          console.log(App.data)
-  
           if (App.data.isLogin) {
             clearInterval(this.data.checkLoginTimer)
-            
+  
+            this.refreshData()
+  
             this.setData({
               isLogin: true,
               checkLoginTimer: null
@@ -75,16 +69,22 @@ Page({
           }
         }, 500)
       })
+    } else {
+      this.setData({
+        isLogin: true
+      })
+      
+      this.refreshData()
     }
-  },
-  onShow() {
-    this.refreshData()
   },
   onShareAppMessage() {
     return {
       title: '华中大相册',
       path: `${this.route}?id=${this.data.id}&$albumId=${this.data.albumId}`
     }
+  },
+  onUnload() {
+    clearInterval(this.data.checkLoginTimer)
   },
   
   stopBubble() {},
