@@ -1,5 +1,5 @@
 <scroll-view wx:if="{{!isLoading}}" class="list ani-fade-in" scroll-y="{{true}}" enable-back-to-top="{{true}}">
     <navigator class="pic-wrapper" url="/pages/picture/picture?id={{item.id}}\&albumId={{id}}" wx:for="{{pictures}}" wx:key="{{item.id}}">
-        <image mode="aspectFill" src="{{item.src}}"/>
+        <image mode="aspectFill" src="{{item.previewSrc}}"/>
     </navigator>
 </scroll-view>

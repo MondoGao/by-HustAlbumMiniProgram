@@ -45,7 +45,7 @@ Page({
     }
     
     this.setData({
-      countDown: ~~((new Date(`${year}-${baseDate}`) - now)/1000/60/60/24)
+      countDown: Math.ceil(((new Date(`${year}-${baseDate}`) - now)/1000/60/60/24))
     })
   },
   onShow() {

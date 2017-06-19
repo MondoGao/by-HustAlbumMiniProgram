@@ -10,7 +10,7 @@
 
 <template name="picture">
     <scroll-view scroll-y="{{true}}" class="container" scroll-into-view="{{scrollIntoView}}" scroll-with-animation="{{true}}">
-        <image src="{{src}}" mode="aspectFill" bindtap="handlePicTap" data-src="{{src}}"></image>
+        <image src="{{previewSrc}}" mode="aspectFill" bindtap="handlePicTap" data-src="{{src}}"></image>
         <view class="meta-wrapper">
             <view class="meta">
                 <view class="desc">

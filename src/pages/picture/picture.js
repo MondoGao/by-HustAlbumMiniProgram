@@ -90,8 +90,7 @@ Page({
   },
   handlePicTap(e) {
     wx.previewImage({
-      current: e.target.dataset.src,
-      urls: Object.keys(this.data.pictures).map(picId => this.data.pictures[picId].src)
+      urls: [e.target.dataset.src]
     })
   },
   handleShareTap(e) {
