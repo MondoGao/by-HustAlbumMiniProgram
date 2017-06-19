@@ -144,10 +144,10 @@ Page({
     }
   },
   handleLikeTap(e) {
-    postPictureLikes(this.data.id)
+    let picture = this.data.pictures[this.data.id]
+    
+    postPictureLikes(this.data.id, !picture.isLiked)
       .then(() => {
-        let picture = this.data.pictures[this.data.id]
-  
         picture.isLiked = !picture.isLiked
         picture.likeTimes += picture.isLiked ? 1 : -1
         

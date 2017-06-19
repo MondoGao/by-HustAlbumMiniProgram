@@ -506,12 +506,15 @@ const postPictureComments = (id, content) => {
 /* harmony export (immutable) */ __webpack_exports__["b"] = postPictureComments;
 
 
-const postPictureLikes = id => {
+const postPictureLikes = (id, isLiked) => {
   return wxRequestWrapper({
     url: `${sourceSettings.publicPath}/pictures/${id}/likes/`,
     method: `POST`,
     header: {
       '3rd-session': getSesstion()
+    },
+    data: {
+      isLiked
     }
   })
 }

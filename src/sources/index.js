@@ -120,12 +120,15 @@ export const postPictureComments = (id, content) => {
     .then(res => res.data)
 }
 
-export const postPictureLikes = id => {
+export const postPictureLikes = (id, isLiked) => {
   return wxRequestWrapper({
     url: `${sourceSettings.publicPath}/pictures/${id}/likes/`,
     method: `POST`,
     header: {
       '3rd-session': getSesstion()
+    },
+    data: {
+      isLiked
     }
   })
 }
