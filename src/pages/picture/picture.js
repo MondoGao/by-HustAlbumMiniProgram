@@ -38,8 +38,11 @@ Page({
       swiperCurrent
     })
   },
+  getPicIndex(picId, picIds = this.data.picIds) {
+    return picIds.indexOf(+picId)
+  },
   getNowPicIndex(picIds = this.data.picIds) {
-    return picIds.indexOf(+this.data.id)
+    return this.getPicIndex(+this.data.id, picIds)
   },
   refreshShowingPics(isFirst = false) {
     let nowPicIndex = this.getNowPicIndex()
@@ -72,6 +75,33 @@ Page({
         
         this.refreshShowingPics(true)
       })
+  },
+  appendPicList(direction) {
+    const firstPicId = this.data.showingPicIds[0]
+    const lastPicId = this.data.showingPicIds[this.data.showingPicIds.length - 1]
+    const firstIndex = this.getPicIndex(firstPicId)
+    const lastIndex = this.getPicIndex(lastPicId)
+    
+    if (~direction) {
+      if (lastIndex < this.data.picIds.length - 1) {
+        this.setData({
+          showingPicIds: [
+            ...this.data.showingPicIds,
+            this.data.picIds[lastIndex + 1]
+          ]
+        })
+      }
+    } else {
+      if (firstIndex > 0) {
+        this.setData({
+          showingPicIds: [
+            this.data.picIds[firstIndex - 1],
+            ...this.data.showingPicIds
+          ],
+          swiperCurrent: this.data.swiperCurrent + 1
+        })
+      }
+    }
   },
   
   onLoad(query) {
@@ -118,13 +148,21 @@ Page({
   stopBubble() {},
   handleSwiperChange(e) {
     const picId = this.data.showingPicIds[e.detail.current]
-    
+    const lastId = this.data.showingPicIds[this.data.swiperCurrent]
+    const lastIndex = this.getPicIndex(lastId)
+    const nowIndex = this.getPicIndex(picId)
+  
     wx.updateShareMenu({
       path: `${this.route}?id=${picId}&$albumId=${this.data.albumId}`
     })
     this.setData({
-      id: picId
+      id: picId,
+      swiperCurrent: e.detail.current
     })
+  
+    const direction = nowIndex - lastIndex
+  
+    this.appendPicList(direction)
   },
   handlePicTap(e) {
     wx.previewImage({
