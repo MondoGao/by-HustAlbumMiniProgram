@@ -9,6 +9,7 @@ Page({
     swiperCurrent: 0,
     pictures: {},
     picIds: [],
+    showingPicIds: [],
     commentValue: '',
     tmpValue: '',
     
@@ -18,12 +19,38 @@ Page({
     albumId: undefined
   },
   
+  loadPicPage(index) {
+    const splitNum = 5
+    const picNum = this.data.picIds.length
+    let start = index - ~~(splitNum / 2)
+    let end = picNum
+    let swiperCurrent = 0
+  
+    if (start < 0) {
+      start = 0
+    }
+  
+    swiperCurrent = start < 1 ? index : index % start
+    end = start + splitNum
+  
+    this.setData({
+      showingPicIds: this.data.picIds.slice(start, end),
+      swiperCurrent
+    })
+  },
+  getNowPicIndex(picIds = this.data.picIds) {
+    return picIds.indexOf(+this.data.id)
+  },
+  refreshShowingPics(isFirst = false) {
+    let nowPicIndex = this.getNowPicIndex()
+
+    ~nowPicIndex ? this.loadPicPage(nowPicIndex) : this.loadPicPage(0)
+  },
   refreshData() {
     return getAlbumPictures(this.data.albumId)
       .then(data => {
         wx.hideLoading()
         const picId = this.data.id
-        let swiperIndex = data.result.indexOf(+picId)
         
         const picData = data.result.map(picId => {
           let pic = data.entities.pictures[picId]
@@ -35,14 +62,15 @@ Page({
             day: takenTime.getDate()
           }
         })
-  
+        
         this.setData({
           id: picId ? picId : data.result[0],
           isLoading: false,
-          swiperCurrent: ~swiperIndex ? swiperIndex : 0,
           picIds: data.result,
           pictures: data.entities.pictures
         })
+        
+        this.refreshShowingPics(true)
       })
   },
   
@@ -89,14 +117,13 @@ Page({
   
   stopBubble() {},
   handleSwiperChange(e) {
-    const picId = this.data.pictures[this.data.picIds[e.detail.current]].id
+    const picId = this.data.showingPicIds[e.detail.current]
     
     wx.updateShareMenu({
       path: `${this.route}?id=${picId}&$albumId=${this.data.albumId}`
     })
     this.setData({
-      id: picId,
-      swiperCurrent: e.detail.current
+      id: picId
     })
   },
   handlePicTap(e) {

@@ -1,5 +1,5 @@
 <swiper wx:if="{{!isLoading && isLogin}}" class="swiper ani-fade-in" duration="300" current="{{swiperCurrent}}" bindchange="handleSwiperChange">
-    <swiper-item wx:for="{{picIds}}" wx:key="{{item}}">
+    <swiper-item wx:for="{{showingPicIds}}" wx:key="{{item}}">
         <template is="picture" data="{{isShowShare, ...pictures[item]}}"/>
     </swiper-item>
 </swiper>
