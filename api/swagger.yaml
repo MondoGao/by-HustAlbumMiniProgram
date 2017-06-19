@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   title: 华中大相册微信小程序
-  version: 1.0.14
+  version: 1.0.15
   contact:
     name: Mondo
     email: mondogao@gmail.com
@@ -92,6 +92,15 @@ paths:
       parameters:
         - $ref: '#/parameters/sessionParam'
         - $ref: '#/parameters/idPathParam'
+        - name: data
+          in: body
+          description: data
+          schema:
+            type: object
+            properties:
+              isLiked:
+                type: boolean
+          required: true
       responses:
         '201':
           description: OK
