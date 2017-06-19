@@ -20,7 +20,7 @@
                     <text class="date">{{takenTime.year}}-{{takenTime.month}}-{{takenTime.day}}</text>
                     <text class="nickname">BY {{author.username}}</text>
                     <view class="like" catchtap="handleLikeTap">
-                        <image src="/assets/picture-like{{isLiked ? 'd' : ''}}@2x.png"/>
+                        <image src="/assets/picture-like{{liked ? 'd' : ''}}@2x.png"/>
                         {{likeTimes > 0 ? likeTimes : '喜欢'}}
                     </view>
                     <button wx:if="{{isShowShare}}" open-type="share" class="share" bindtap="handleShareTap">
