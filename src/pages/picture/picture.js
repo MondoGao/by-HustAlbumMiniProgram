@@ -5,6 +5,7 @@ Page({
     isLoading: true,
     isLogin: getApp().data.isLogin,
     checkLoginTimer: null,
+    appendListTimers: [],
     isShowCommentForm: false,
     swiperCurrent: 0,
     pictures: {},
@@ -81,27 +82,37 @@ Page({
     const lastPicId = this.data.showingPicIds[this.data.showingPicIds.length - 1]
     const firstIndex = this.getPicIndex(firstPicId)
     const lastIndex = this.getPicIndex(lastPicId)
-    
-    if (~direction) {
-      if (lastIndex < this.data.picIds.length - 1) {
-        this.setData({
-          showingPicIds: [
-            ...this.data.showingPicIds,
-            this.data.picIds[lastIndex + 1]
-          ]
-        })
-      }
-    } else {
-      if (firstIndex > 0) {
-        this.setData({
-          showingPicIds: [
-            this.data.picIds[firstIndex - 1],
-            ...this.data.showingPicIds
-          ],
-          swiperCurrent: this.data.swiperCurrent + 1
-        })
-      }
-    }
+  
+  
+    this.setData({
+      appendListTimers: [
+        ...this.data.appendListTimers,
+        setTimeout(() => {
+          console.log(direction)
+          
+          if (direction === 1) {
+            if (lastIndex < this.data.picIds.length - 1) {
+              this.setData({
+                showingPicIds: [
+                  ...this.data.showingPicIds,
+                  this.data.picIds[lastIndex + 1]
+                ]
+              })
+            }
+          } else if (direction === -1) {
+            if (firstIndex > 0) {
+              this.setData({
+                showingPicIds: [
+                  this.data.picIds[firstIndex - 1],
+                  ...this.data.showingPicIds
+                ],
+                swiperCurrent: this.data.swiperCurrent + 1
+              })
+            }
+          }
+        }, 100)
+      ]
+    })
   },
   
   onLoad(query) {
