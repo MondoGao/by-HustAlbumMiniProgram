@@ -155,17 +155,21 @@ Page({
   
     if (nowPicIndex > 1 && nowPicIndex < this.data.picNum - 1) {
       if (e.detail.current < 1) {
-        wx.showLoading({
+        wx.showToast({
           title: '加载上一页中...',
-          mask: true
+          icon: 'loading',
+          mask: true,
+          duration: 1500
         })
     
         this.refreshShowingPics()
     
       } else if (e.detail.current > this.data.splitNum - 2) {
-        wx.showLoading({
+        wx.showToast({
           title: '加载下一页中...',
-          mask: true
+          icon: 'loading',
+          mask: true,
+          duration: 1500
         })
     
         this.refreshShowingPics()

@@ -32,8 +32,7 @@ Page({
     this.setData({
       id: query.id
     })
-  },
-  onShow() {
+  
     this.refreshData()
   },
   onShareAppMessage() {
