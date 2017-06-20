@@ -5,7 +5,8 @@ Page({
     isLoading: true,
     lastAppendTimeStamp: 0,
     hideToastTimer: null,
-    
+    scrollIntoView: '',
+  
     id: undefined,
     name: undefined,
     pictures: undefined,
@@ -36,6 +37,22 @@ Page({
       wx.hideToast()
       wx.hideLoading()
     }
+  },
+  syncPicStatus(picId) {
+    console.log(picId)
+    const index = this.data.picIds.indexOf(picId)
+    
+    if (index >= this.data.end) {
+      this.setData({
+        end: (index + 1) % this.data.splitNum + this.data.splitNum
+      })
+      
+      this.appendShowingPicIds()
+    }
+    
+    this.setData({
+      scrollIntoView: `pic-${picId}`
+    })
   },
   
   onLoad(query) {

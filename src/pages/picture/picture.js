@@ -150,7 +150,12 @@ Page({
       id: picId,
       swiperCurrent: e.detail.current
     })
-  
+    
+    // 更新所在相册页的滚动状态
+    const albumPage = getCurrentPages().filter(page => page.route === 'pages/album/album')[0]
+    albumPage ? albumPage.syncPicStatus(picId) : {}
+    
+    // 判断是否要继续加载
     let nowPicIndex = this.getNowPicIndex()
   
     if (nowPicIndex > 1 && nowPicIndex < this.data.picNum - 1) {
