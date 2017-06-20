@@ -92,6 +92,8 @@ Page({
   },
   
   onLoad(query) {
+    console.log(query)
+  
     wx.showToast({
       title: '加载中...',
       mask: true,
@@ -131,7 +133,7 @@ Page({
   onShareAppMessage() {
     return {
       title: '华中大相册',
-      path: `${this.route}?id=${this.data.id}&$albumId=${this.data.albumId}`
+      path: `${this.route}?id=${this.data.id}&albumId=${this.data.albumId}`
     }
   },
   onUnload() {
