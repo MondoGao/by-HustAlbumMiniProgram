@@ -2,7 +2,7 @@ import { getAlbumPictures, postPictureLikes, postPictureComments } from 'sources
 
 Page({
   data: {
-    splitNum: 12,
+    splitNum: 16,
     
     isLoading: true,
     isLogin: getApp().data.isLogin,
