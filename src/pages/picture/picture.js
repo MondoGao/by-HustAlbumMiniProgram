@@ -78,41 +78,45 @@ Page({
       })
   },
   appendPicList(direction) {
-    const firstPicId = this.data.showingPicIds[0]
-    const lastPicId = this.data.showingPicIds[this.data.showingPicIds.length - 1]
-    const firstIndex = this.getPicIndex(firstPicId)
-    const lastIndex = this.getPicIndex(lastPicId)
+    if (direction !== 0) {
+      this.setData({
+        appendListTimers: [
+          ...this.data.appendListTimers,
+          setTimeout(() => {
+            const firstPicId = this.data.showingPicIds[0]
+            const lastPicId = this.data.showingPicIds[this.data.showingPicIds.length - 1]
+            const firstIndex = this.getPicIndex(firstPicId)
+            const lastIndex = this.getPicIndex(lastPicId)
+            const lastSwipperIndex = this.data.swiperCurrent
   
-  
-    this.setData({
-      appendListTimers: [
-        ...this.data.appendListTimers,
-        setTimeout(() => {
-          console.log(direction)
-          
-          if (direction === 1) {
-            if (lastIndex < this.data.picIds.length - 1) {
-              this.setData({
-                showingPicIds: [
-                  ...this.data.showingPicIds,
-                  this.data.picIds[lastIndex + 1]
-                ]
-              })
+            console.log(firstIndex)
+            console.log(lastIndex)
+            console.log(direction)
+        
+            if (direction === 1) {
+              if (lastIndex < this.data.picIds.length - 1) {
+                this.setData({
+                  showingPicIds: [
+                    ...this.data.showingPicIds,
+                    this.data.picIds[lastIndex + 1]
+                  ]
+                })
+              }
+            } else if (direction === -1) {
+              if (firstIndex > 0) {
+                this.setData({
+                  showingPicIds: [
+                    this.data.picIds[firstIndex - 1],
+                    ...this.data.showingPicIds
+                  ],
+                  swiperCurrent: lastSwipperIndex + 1
+                })
+              }
             }
-          } else if (direction === -1) {
-            if (firstIndex > 0) {
-              this.setData({
-                showingPicIds: [
-                  this.data.picIds[firstIndex - 1],
-                  ...this.data.showingPicIds
-                ],
-                swiperCurrent: this.data.swiperCurrent + 1
-              })
-            }
-          }
-        }, 0)
-      ]
-    })
+          }, 300)
+        ]
+      })
+    }
   },
   
   onLoad(query) {
@@ -154,6 +158,7 @@ Page({
   },
   onUnload() {
     clearInterval(this.data.checkLoginTimer)
+    this.data.appendListTimers.forEach(el => clearInterval(el))
   },
   
   stopBubble() {},
