@@ -16,10 +16,19 @@ Page({
         wx.setNavigationBarTitle({
           title: resData.name
         })
+  
+        wx.hideToast()
+        wx.hideLoading()
       })
   },
   
   onLoad(query) {
+    wx.showToast({
+      title: '加载中...',
+      mask: true,
+      icon: 'loading'
+    })
+    
     this.setData({
       id: query.id
     })

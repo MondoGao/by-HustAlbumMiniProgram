@@ -48,7 +48,8 @@ Page({
       start,
       end
     })
-    
+  
+    wx.hideToast()
     wx.hideLoading()
   },
   getPicIndex(picId, picIds = this.data.picIds) {
@@ -65,7 +66,6 @@ Page({
   refreshData() {
     return getAlbumPictures(this.data.albumId)
       .then(data => {
-        wx.hideLoading()
         const picId = this.data.id
         
         const picData = data.result.map(picId => {
@@ -92,6 +92,12 @@ Page({
   },
   
   onLoad(query) {
+    wx.showToast({
+      title: '加载中...',
+      mask: true,
+      icon: 'loading'
+    })
+    
     const App = getApp()
     
     this.setData({
