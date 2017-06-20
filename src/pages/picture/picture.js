@@ -1,20 +1,22 @@
 import { getAlbumPictures, postPictureLikes, postPictureComments } from 'sources'
 
-const splitNum = 12
-
 Page({
   data: {
+    splitNum: 12,
+    
     isLoading: true,
     isLogin: getApp().data.isLogin,
     checkLoginTimer: null,
-    appendListTimers: [],
     isShowCommentForm: false,
     swiperCurrent: 0,
     pictures: {},
     picIds: [],
+    picNum: 0,
     showingPicIds: [],
     commentValue: '',
     tmpValue: '',
+    start: 0,
+    end: 0,
     
     isShowShare: !!wx.showShareMenu,
     
@@ -28,7 +30,7 @@ Page({
     })
     
     const picNum = this.data.picIds.length
-    let start = index - ~~(splitNum / 2)
+    let start = index - ~~(this.data.splitNum / 2)
     let end = picNum
     let swiperCurrent = 0
   
@@ -37,12 +39,14 @@ Page({
     }
   
     swiperCurrent = start < 1 ? index : index - start
-    end = start + splitNum
+    end = start + this.data.splitNum
     
     this.setData({
       showingPicIds: this.data.picIds.slice(start, end),
       swiperCurrent,
-      isLoading: false
+      isLoading: false,
+      start,
+      end
     })
     
     wx.hideLoading()
@@ -79,7 +83,8 @@ Page({
           id: picId ? picId : data.result[0],
           isLoading: false,
           picIds: data.result,
-          pictures: data.entities.pictures
+          pictures: data.entities.pictures,
+          picNum: data.result.length
         })
         
         this.refreshShowingPics()
@@ -125,7 +130,6 @@ Page({
   },
   onUnload() {
     clearInterval(this.data.checkLoginTimer)
-    this.data.appendListTimers.forEach(el => clearInterval(el))
   },
   
   stopBubble() {},
@@ -140,22 +144,26 @@ Page({
       id: picId,
       swiperCurrent: e.detail.current
     })
-    
-    if (e.detail.current < 1) {
-      wx.showLoading({
-        title: '加载上一页中...',
-        mask: true
-      })
-      
-      this.refreshShowingPics()
-      
-    } else if (e.detail.current > splitNum - 2) {
-      wx.showLoading({
-        title: '加载下一页中...',
-        mask: true
-      })
   
-      this.refreshShowingPics()
+    let nowPicIndex = this.getNowPicIndex()
+  
+    if (nowPicIndex > 1 && nowPicIndex < this.data.picNum - 1) {
+      if (e.detail.current < 1) {
+        wx.showLoading({
+          title: '加载上一页中...',
+          mask: true
+        })
+    
+        this.refreshShowingPics()
+    
+      } else if (e.detail.current > this.data.splitNum - 2) {
+        wx.showLoading({
+          title: '加载下一页中...',
+          mask: true
+        })
+    
+        this.refreshShowingPics()
+      }
     }
   },
   handlePicTap(e) {
