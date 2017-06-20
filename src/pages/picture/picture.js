@@ -1,6 +1,6 @@
 import { getAlbumPictures, postPictureLikes, postPictureComments } from 'sources'
 
-const splitNum = 8
+const splitNum = 12
 
 Page({
   data: {
@@ -10,7 +10,6 @@ Page({
     appendListTimers: [],
     isShowCommentForm: false,
     swiperCurrent: 0,
-    lastSwiperIndex: 0,
     pictures: {},
     picIds: [],
     showingPicIds: [],
@@ -24,6 +23,10 @@ Page({
   },
   
   loadPicPage(index) {
+    this.setData({
+      isLoading: true
+    })
+    
     const picNum = this.data.picIds.length
     let start = index - ~~(splitNum / 2)
     let end = picNum
@@ -39,8 +42,10 @@ Page({
     this.setData({
       showingPicIds: this.data.picIds.slice(start, end),
       swiperCurrent,
-      lastSwiperIndex: swiperCurrent
+      isLoading: false
     })
+    
+    wx.hideLoading()
   },
   getPicIndex(picId, picIds = this.data.picIds) {
     return picIds.indexOf(+picId)
@@ -48,7 +53,7 @@ Page({
   getNowPicIndex(picIds = this.data.picIds) {
     return this.getPicIndex(+this.data.id, picIds)
   },
-  refreshShowingPics(isFirst = false) {
+  refreshShowingPics() {
     let nowPicIndex = this.getNowPicIndex()
 
     ~nowPicIndex ? this.loadPicPage(nowPicIndex) : this.loadPicPage(0)
@@ -77,48 +82,8 @@ Page({
           pictures: data.entities.pictures
         })
         
-        this.refreshShowingPics(true)
+        this.refreshShowingPics()
       })
-  },
-  appendPicList(direction) {
-    if (direction !== 0) {
-      this.setData({
-        appendListTimers: [
-          ...this.data.appendListTimers,
-          setTimeout(() => {
-            const firstPicId = this.data.showingPicIds[0]
-            const lastPicId = this.data.showingPicIds[this.data.showingPicIds.length - 1]
-            const firstIndex = this.getPicIndex(firstPicId)
-            const lastIndex = this.getPicIndex(lastPicId)
-  
-            console.log(firstIndex)
-            console.log(lastIndex)
-            console.log(direction)
-        
-            if (direction === 1) {
-              if (lastIndex < this.data.picIds.length - 1) {
-                this.setData({
-                  showingPicIds: [
-                    ...this.data.showingPicIds,
-                    this.data.picIds[lastIndex + 1]
-                  ]
-                })
-              }
-            } else if (direction === -1) {
-              if (firstIndex > 0) {
-                this.setData({
-                  showingPicIds: [
-                    this.data.picIds[firstIndex - 1],
-                    ...this.data.showingPicIds
-                  ],
-                  swiperCurrent: this.data.showingPicIds.indexOf(this.data.id) + 1
-                })
-              }
-            }
-          }, 300)
-        ]
-      })
-    }
   },
   
   onLoad(query) {
@@ -166,21 +131,32 @@ Page({
   stopBubble() {},
   handleSwiperChange(e) {
     const picId = this.data.showingPicIds[e.detail.current]
-    const lastId = this.data.showingPicIds[this.data.lastSwiperIndex]
-    const lastIndex = this.getPicIndex(lastId)
-    const nowIndex = this.getPicIndex(picId)
   
     wx.updateShareMenu({
       path: `${this.route}?id=${picId}&$albumId=${this.data.albumId}`
     })
+    
     this.setData({
       id: picId,
-      lastSwiperIndex: e.detail.current
+      swiperCurrent: e.detail.current
     })
+    
+    if (e.detail.current < 1) {
+      wx.showLoading({
+        title: '加载上一页中...',
+        mask: true
+      })
+      
+      this.refreshShowingPics()
+      
+    } else if (e.detail.current > splitNum - 2) {
+      wx.showLoading({
+        title: '加载下一页中...',
+        mask: true
+      })
   
-    const direction = nowIndex - lastIndex
-  
-    this.appendPicList(direction)
+      this.refreshShowingPics()
+    }
   },
   handlePicTap(e) {
     wx.previewImage({
