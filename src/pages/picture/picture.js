@@ -1,5 +1,7 @@
 import { getAlbumPictures, postPictureLikes, postPictureComments } from 'sources'
 
+const splitNum = 8
+
 Page({
   data: {
     isLoading: true,
@@ -8,6 +10,7 @@ Page({
     appendListTimers: [],
     isShowCommentForm: false,
     swiperCurrent: 0,
+    lastSwiperIndex: 0,
     pictures: {},
     picIds: [],
     showingPicIds: [],
@@ -21,7 +24,6 @@ Page({
   },
   
   loadPicPage(index) {
-    const splitNum = 5
     const picNum = this.data.picIds.length
     let start = index - ~~(splitNum / 2)
     let end = picNum
@@ -36,7 +38,8 @@ Page({
     
     this.setData({
       showingPicIds: this.data.picIds.slice(start, end),
-      swiperCurrent
+      swiperCurrent,
+      lastSwiperIndex: swiperCurrent
     })
   },
   getPicIndex(picId, picIds = this.data.picIds) {
@@ -87,7 +90,6 @@ Page({
             const lastPicId = this.data.showingPicIds[this.data.showingPicIds.length - 1]
             const firstIndex = this.getPicIndex(firstPicId)
             const lastIndex = this.getPicIndex(lastPicId)
-            const lastSwipperIndex = this.data.swiperCurrent
   
             console.log(firstIndex)
             console.log(lastIndex)
@@ -109,7 +111,7 @@ Page({
                     this.data.picIds[firstIndex - 1],
                     ...this.data.showingPicIds
                   ],
-                  swiperCurrent: lastSwipperIndex + 1
+                  swiperCurrent: this.data.showingPicIds.indexOf(this.data.id) + 1
                 })
               }
             }
@@ -164,7 +166,7 @@ Page({
   stopBubble() {},
   handleSwiperChange(e) {
     const picId = this.data.showingPicIds[e.detail.current]
-    const lastId = this.data.showingPicIds[this.data.swiperCurrent]
+    const lastId = this.data.showingPicIds[this.data.lastSwiperIndex]
     const lastIndex = this.getPicIndex(lastId)
     const nowIndex = this.getPicIndex(picId)
   
@@ -173,7 +175,7 @@ Page({
     })
     this.setData({
       id: picId,
-      swiperCurrent: e.detail.current
+      lastSwiperIndex: e.detail.current
     })
   
     const direction = nowIndex - lastIndex
