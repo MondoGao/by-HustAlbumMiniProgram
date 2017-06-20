@@ -476,6 +476,14 @@ const getAlbum = id => {
     url: `${sourceSettings.publicPath}/albums/${id}`
   })
     .then(res => res.data)
+    .then(data => {
+      const normalizedPics = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_normalizr__["normalize"])(data.pictures, __WEBPACK_IMPORTED_MODULE_1_sources_schemas__["a" /* pictures */])
+      
+      return Object.assign({}, data, {
+        pictures: normalizedPics.entities.pictures,
+        picIds: normalizedPics.result
+      })
+    })
 }
 /* harmony export (immutable) */ __webpack_exports__["d"] = getAlbum;
 

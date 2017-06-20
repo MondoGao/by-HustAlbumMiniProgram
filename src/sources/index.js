@@ -96,6 +96,14 @@ export const getAlbum = id => {
     url: `${sourceSettings.publicPath}/albums/${id}`
   })
     .then(res => res.data)
+    .then(data => {
+      const normalizedPics = normalize(data.pictures, pictures)
+      
+      return Object.assign({}, data, {
+        pictures: normalizedPics.entities.pictures,
+        picIds: normalizedPics.result
+      })
+    })
 }
 
 export const getAlbumPictures = id => {
