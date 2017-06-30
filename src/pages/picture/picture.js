@@ -174,12 +174,11 @@ Page({
     const picId = this.data.showingPicIds[e.detail.current]
   
     wx.updateShareMenu({
-      path: `${this.route}?id=${picId}&$albumId=${this.data.albumId}`
+      path: `${this.route}?id=${picId}&albumId=${this.data.albumId}`
     })
     
     this.setData({
-      id: picId,
-      swiperCurrent: e.detail.current
+      id: picId
     })
     
     // 更新所在相册页的滚动状态
