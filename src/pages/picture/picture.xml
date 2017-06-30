@@ -14,18 +14,18 @@
         <view class="meta-wrapper">
             <view class="meta">
                 <view class="desc">
-                    {{description}}
+                    <text>{{description}}</text>
                 </view>
                 <view class="info">
                     <text class="date">{{takenTime.year}}-{{takenTime.month}}-{{takenTime.day}}</text>
                     <text class="nickname">BY {{author.username}}</text>
                     <view class="like" catchtap="handleLikeTap">
                         <image src="/assets/picture-like{{liked ? 'd' : ''}}@2x.png"/>
-                        {{likeTimes > 0 ? likeTimes : '喜欢'}}
+                        <text>{{likeTimes > 0 ? likeTimes : '喜欢'}}</text>
                     </view>
                     <button wx:if="{{isShowShare}}" open-type="share" class="share" bindtap="handleShareTap">
                         <image src="/assets/picture-share@2x.png"/>
-                        分享
+                        <text>分享</text>
                     </button>
                 </view>
             </view>

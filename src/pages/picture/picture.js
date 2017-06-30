@@ -77,6 +77,35 @@ Page({
             month: takenTime.getMonth() + 1,
             day: takenTime.getDate()
           }
+          
+          function decodeHTML(str, isHarmon = false) {
+            let map = {
+              'gt': '>',
+              'quot': '"',
+              'amp': '&',
+              'lt': '<',
+            }
+            
+            let result = str
+              .replace(/<br>/, '\n')
+              .replace(/&(#(?:x[0-9a-f]+|\d+)|[a-z]+);?/gi, ($0, $1) => {
+                if ($1[0] === "#") {
+                  return String.fromCharCode($1[1].toLowerCase() === "x" ? parseInt($1.substr(2), 16)  : parseInt($1.substr(1), 10))
+                } else {
+                  return map[$1] ? map[$1] : $0
+                }
+            })
+              .replace(/(<|&lt;)\/?\w+.*?(>|&gt;)/gi, '')
+            
+            return result ? result : (isHarmon ? '该内容因安全性问题被屏蔽' : '')
+          }
+          
+          pic.description = decodeHTML(pic.description)
+          pic.comments = pic.comments.map(comment => Object.assign({}, comment, {
+            content: decodeHTML(comment.content, true)
+          }))
+          
+          return pic
         })
         
         this.setData({

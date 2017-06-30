@@ -36,6 +36,9 @@
     color: $colorInfo;
     font-size: 24rpx;
     
+    .date, .nickname {
+      vertical-align: middle;
+    }
     .nickname {
       margin: 0 auto 0 13rpx;
     }
@@ -45,6 +48,9 @@
       image {
         vertical-align: middle;
         margin-right: 8rpx;
+      }
+      text {
+        vertical-align: middle;
       }
     }
     .like {
