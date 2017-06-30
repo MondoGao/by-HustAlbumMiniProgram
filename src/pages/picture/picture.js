@@ -88,6 +88,7 @@ Page({
               'quot': '"',
               'amp': '&',
               'lt': '<',
+              'nbsp': ' '
             }
             
             let result = str
