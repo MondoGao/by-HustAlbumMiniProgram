@@ -8,7 +8,7 @@ Page({
     isLogin: getApp().data.isLogin,
     checkLoginTimer: null,
     isShowCommentForm: false,
-    swiperCurrent: 0,
+    swiperCurrent: undefined,
     pictures: {},
     picIds: [],
     picNum: 0,
@@ -47,6 +47,10 @@ Page({
       isLoading: false,
       start,
       end
+    })
+    
+    this.setData({
+      swiperCurrent: undefined
     })
   
     wx.hideToast()
@@ -258,12 +262,11 @@ Page({
   handleLikeTap(e) {
     let picture = this.data.pictures[this.data.id]
     
+    picture.liked = !picture.liked
+    picture.likeTimes += picture.liked ? 1 : -1
+    
+    this.setData(this.data)
+    
     postPictureLikes(this.data.id, !picture.liked)
-      .then(() => {
-        picture.liked = !picture.liked
-        picture.likeTimes += picture.liked ? 1 : -1
-        
-        this.setData(this.data)
-      })
   }
 })
