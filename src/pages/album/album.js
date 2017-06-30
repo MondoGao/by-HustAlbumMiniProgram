@@ -59,7 +59,8 @@ Page({
     wx.showToast({
       title: '加载中...',
       mask: true,
-      icon: 'loading'
+      icon: 'loading',
+      duration: 99999
     })
     
     this.setData({

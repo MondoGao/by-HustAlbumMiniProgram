@@ -125,12 +125,11 @@ Page({
   },
   
   onLoad(query) {
-    console.log(query)
-  
     wx.showToast({
       title: '加载中...',
       mask: true,
-      icon: 'loading'
+      icon: 'loading',
+      duration: 99999
     })
     
     const App = getApp()
